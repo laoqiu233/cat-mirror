@@ -9,8 +9,11 @@ modules = {}
 for folder in os.listdir(os.path.join('.', 'modules')):
     # Is valid module
     if os.path.exists(os.path.join('.', 'modules', folder, 'module.py')):
-
-        module = importlib.import_module('modules.{}.module'.format(folder))
+        try:
+            module = importlib.import_module('modules.{}.module'.format(folder))
+        except:
+            '$INFO$[Warning] Cannot import module {}'.format(folder)
+            continue
         # Check if module.py file is valid
         try:
             assert 'config' in dir(module)
@@ -27,10 +30,10 @@ for folder in os.listdir(os.path.join('.', 'modules')):
                 app.add_url_rule(*view[0:3], methods=['GET'] if len(view) == 3 else view[3])
 
         except AssertionError:
-            print('[Warning] Module.py file for module "{}" is invalid!'.format(folder))
+            print('$INFO$[Warning] Module.py file for module "{}" is invalid!'.format(folder))
             continue
             
-        print('[Modules] Module {} loaded'.format(folder))
+        print('$INFO$[Modules] Module {} loaded'.format(folder))
         modules[folder] = module.config
 
 @app.route('/')

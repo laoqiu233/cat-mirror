@@ -9,6 +9,12 @@ Menu.setApplicationMenu(null)
 app.on('ready', () => {
     server = new PythonShell('server.py');
 
+    server.on('message', msg => {
+        if (msg.startsWith('$INFO$')) {
+            console.log(/\$INFO\$(.*)/.exec(msg)[1]);
+        }
+    })
+
     win = new BrowserWindow({
         fullscreen: true,
         webPreferences: {
