@@ -1,0 +1,13 @@
+{
+  "name": "cat-mirror",
+  "version": "0.1.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "electron": "6.1.7",
+    "python-shell": "^1.0.8"
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>Cat-Mirror</title>
+</head>
+<body>
+    <div class="top">
+        <div class="left">
+            {% for module in filter(modules, ['top', 'left']) %}
+            <div class="container" id="module-{{ module['name'] }}">
+                {{ module['renderer']() | safe if module['renderer'] != None }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mid">
+            {% for module in filter(modules, ['top', 'mid']) %}
+            <div class="container" id="module-{{ module['name'] }}">
+                {{ module['renderer']() | safe if module['renderer'] != None }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="right">
+            {% for module in filter(modules, ['top', 'right']) %}
+            <div class="container" id="module-{{ module['name'] }}">
+                {{ module['renderer']() | safe if module['renderer'] != None }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="left">
+            {% for module in filter(modules, ['bottom', 'left']) %}
+            <div class="container" id="module-{{ module['name'] }}">
+                {{ module['renderer']() | safe if module['renderer'] != None }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mid">
+            {% for module in filter(modules, ['bottom', 'mid']) %}
+            <div class="container" id="module-{{ module['name'] }}">
+                {{ module['renderer']() | safe if module['renderer'] != None }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="right">
+            {% for module in filter(modules, ['bottom', 'right']) %}
+            <div class="container" id="module-{{ module['name'] }}">
+                {{ module['renderer']() | safe if module['renderer'] != None }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% for module in modules %}
+    {% for style in module.get('styles', []) %}
+    <link rel="stylesheet" href="{% if style[:4] == 'http' %}{{ style }}{% else %}{{ url_for('serve_module_static', module=module['name'], path=style) }}{% endif %}">
+    {% endfor %}
+    {% for script in module.get('scripts', []) %}
+    <script src="{% if script[:4] == 'http' %}{{ script }}{% else %}{{ url_for('serve_module_static', module=module['name'], path=script) }}{% endif %}"></script>
+    {% endfor %}
+    {% endfor %}
+    <script>
+    console.log(mirror);
+    </script>
+</body>
+</html>
