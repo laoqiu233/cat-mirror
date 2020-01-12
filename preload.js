@@ -1,5 +1,4 @@
 const {remote} = require('electron')
-const mirror = true;
 
 document.addEventListener('keydown', e => {
     if (e.key == 'Escape') {

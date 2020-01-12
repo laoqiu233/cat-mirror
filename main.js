@@ -7,14 +7,16 @@ let server;
 Menu.setApplicationMenu(null)
 
 app.on('ready', () => {
-    server = new PythonShell('server.py');
+    if (!process.argv.includes('no-server')) {
+        server = new PythonShell('server.py');
 
-    server.on('message', msg => {
-        if (msg.startsWith('$INFO$')) {
-            console.log(/\$INFO\$(.*)/.exec(msg)[1]);
-        }
-    })
-
+        server.on('message', msg => {
+            if (msg.startsWith('$INFO$')) {
+                console.log(/\$INFO\$(.*)/.exec(msg)[1]);
+            }
+        })
+    }
+    
     win = new BrowserWindow({
         fullscreen: true,
         webPreferences: {
@@ -22,7 +24,7 @@ app.on('ready', () => {
         }
     });
 
-    win.loadURL('http://localhost:12306');
+    win.loadURL('http://localhost:12306/');
 
     win.on('closed', () => {
         win = null;
