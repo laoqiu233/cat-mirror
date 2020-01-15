@@ -63,8 +63,5 @@
     <script src="{% if script[:4] == 'http' %}{{ script }}{% else %}{{ url_for('serve_module_static', module=module['name'], path=script) }}{% endif %}"></script>
     {% endfor %}
     {% endfor %}
-    <script>
-    console.log(mirror);
-    </script>
 </body>
 </html>

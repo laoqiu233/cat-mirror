@@ -1,7 +1,11 @@
-from flask import Flask, request, render_template, send_file, abort
+from flask import Flask, request, render_template, send_file, abort, redirect, url_for
 import os, importlib
 
 app = Flask(__name__)
+
+@app.route('/config/')
+def config_page():
+    return render_template('config.html', modules=modules.values())
 
 modules = {}
 
@@ -38,11 +42,10 @@ for folder in os.listdir(os.path.join('.', 'modules')):
 
 @app.route('/')
 def index():
+    # Take user to config page if not using the Electron client
+    if request.user_agent.string.find('Electron') < 0:
+        return redirect(url_for('config_page'))
     return render_template('index.html', modules=modules.values(), filter=filter_by_pos)
-
-@app.route('/config')
-def config_page():
-    return 'This is an example config page'
 
 @app.route('/<string:module>/<path:path>')
 def serve_module_static(module, path):

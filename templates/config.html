@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ds.css') }}">
+    <style>
+        header {
+            text-align: center;
+        }
+
+        .module-link {
+            position: relative;
+            padding: 0;
+            margin: 0;
+            border-radius: 0;
+        }
+
+        .module-link::before {
+            content: "";
+            position: relative;
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        .module-link .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <title>CONFIG|Cat-Mirror</title>
+</head>
+<body>
+    <header>
+        <h1>Modules</h1>
+    </header>
+    <div class="container">
+        {% for module in modules %}
+        {% if module.get('config', '') %}
+        <a href="/config/{{ module.name }}">
+            <div class="button col-2 col-s-6 module-link c-purple button-filled">
+                <div class="text">
+                    <h1>{{ module.name }}</h1>
+                </div>
+            </div>
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>
