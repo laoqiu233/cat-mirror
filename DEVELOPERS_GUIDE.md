@@ -40,5 +40,11 @@ config = {
     'config': lambda: 'Testing' # The config page, route is automatically set to /config/*module name*
 }
 ```
+
+# Notes for Developers
+## CSS
+When writing CSS styles, remember to add `#module-*ModuleName*` before every one of your selectors to avoid conflicts between diffrent modules.
+Since modules are warpped inside a *div* element with an id of `#module-*ModuleName*`.
+
 # Fin.
  And that's basically it! Now you can code your own module for your customized cat-mirror experience.
