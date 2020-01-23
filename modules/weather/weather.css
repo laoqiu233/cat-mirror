@@ -1,0 +1,31 @@
+#module-weather {
+    margin-left: 10px;
+    width: 450px;
+}
+
+#module-weather h2 {clear:both;margin-bottom:10px}
+
+.left #module-weather header *,
+.mid #module-weather header *,
+.left #module-weather h2,
+.mid #module-weather h2 {
+    float: left;
+}
+
+.right #module-weather header *,
+.right #module-weather h2 {
+    float: right;
+}
+
+#module-weather table {
+    border-top: 1px solid #888;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#module-weather td,
+#module-weather th {
+    border-bottom: 1px solid #888;
+    padding: 5px 15px;
+    text-align: center;
+}

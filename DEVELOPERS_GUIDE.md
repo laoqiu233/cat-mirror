@@ -36,7 +36,7 @@ config = {
     'scripts': ['main.js'], # Static js files that the module require
     'views': [('/clock/format', 'clock-format', change_format, ['GET', 'POST'])], # Custom views
     # A custom view should be a tuple with the following format:
-    # (View route, View end-point, View function, The methods this view supports)
+    # (View route, View end-point, View function, The methods this view supports(Optional))
     'config': lambda: 'Testing' # The config page, route is automatically set to /config/*module name*
 }
 ```
@@ -45,6 +45,11 @@ config = {
 ## CSS
 When writing CSS styles, remember to add `#module-*ModuleName*` before every one of your selectors to avoid conflicts between diffrent modules.
 Since modules are warpped inside a *div* element with an id of `#module-*ModuleName*`.
+
+## Developer tools
+If you need developer tools for debugging purposes, comment out the line `Menu.setApplicationMenu(null)` in 
+`main.js`, then press `Shift + Ctrl + I` to open developer tools.
+
 
 # Fin.
  And that's basically it! Now you can code your own module for your customized cat-mirror experience.
