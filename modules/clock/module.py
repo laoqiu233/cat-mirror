@@ -5,15 +5,16 @@ import os, json
 def stream():
     # Sends a SSE whenever the format is modified
     def generator():
-        format = None
+        format = {}
         while True:
             # Open the config file to check changes
-            with open(os.path.join('.', 'modules', 'clock', 'config.json'), encoding='utf-8') as file:
-                config_file = json.load(file)
-                # If the format is changed, send a SSE
-                if 'format' in config_file and config_file['format'] != format:
-                    format = config_file['format']
-                    yield 'data: {}\n\n'.format(format)
+            file = open(os.path.join('.', 'modules', 'clock', 'config.json'), encoding='utf-8')
+            config_file = json.load(file)
+            file.close()
+            # If the format is changed, send a SSE
+            if format.get('header', '') != config_file.get('header', '') or format.get('subtitle', '') != config_file.get('subtitle', ''):
+                format = config_file
+                yield 'data: {}\n\n'.format(json.dumps(config_file))
             # Checks every half of a second
             sleep(0.5)
     return Response(generator(), mimetype='text/event-stream')
@@ -21,22 +22,27 @@ def stream():
 def change_format():
     # API for clock format
     if request.method == 'POST':
-        # If the user haven't' specified a format, return 400
-        if 'format-input' not in request.values:
+        # If the user haven't specified a format, return 400
+        if 'format-header' not in request.values or 'format-subtitle' not in request.values:
             abort(400)
         # Change the format in file
         with open(os.path.join('.', 'modules', 'clock', 'config.json'), 'w', encoding='utf-8') as file:
-            print(json.dumps({'format': request.values['format-input']}))
-            json.dump({'format': request.values['format-input']}, file)
+            json.dump({'header': request.values['format-header'], 'subtitle': request.values['format-subtitle']}, file)
         return redirect(url_for('config-clock'))
     elif request.method == 'GET':
         # Give user the current format
-        with open(os.path.join('.', 'modules', 'clock', 'config.json'), encoding='utf-8') as file:
-            config_file = json.load(file)
-            # If there is no format specified, return 404
-            if 'format' not in config_file:
-                abort(404)
-            return jsonify(config_file)
+        file = open(os.path.join('.', 'modules', 'clock', 'config.json'), encoding='utf-8')
+        config_file = json.load(file)
+        # If there is no format specified, write default format into the file
+        if 'header' not in config_file or 'subtitle' not in config_file:
+            file.close()
+            file = open(os.path.join('.', 'modules', 'clock', 'config.json'), 'w', encoding='utf-8')
+            config_file['header'] = config_file.get('header', '%H:%M:%S')
+            config_file['subtitle'] = config_file.get('subtitle', '%U, %m-%d')
+            json.dump(config_file, file)
+        file.close()
+        
+        return jsonify(config_file)
 
 def config():
     # Simply renders the config page
