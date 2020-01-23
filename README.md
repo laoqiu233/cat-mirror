@@ -14,7 +14,7 @@ Simply type `npm start` to boot the mirror.
 
 ## TODO:
 ✅ Make a config navigation page for all modules.  
-✅ Write weather module
-❎ Reduce the amount of front-end css code
-❎ News module
-❎ Voice Control
+✅ Write weather module  
+❎ Reduce the amount of front-end css code  
+❎ News module  
+❎ Voice Control  
