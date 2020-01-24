@@ -1,7 +1,8 @@
 function createWeatherModule() {
     let config = {
         // Put your Weatherbit.io API key here
-        key: ""
+        key: "b38c8e5e59ff472f951e8ba14aa7ba20",
+        forecast_days: 5
     }
 
     let module = document.getElementById("module-weather");
@@ -31,6 +32,7 @@ function createWeatherModule() {
                 return;
             }
             resp.json().then(json => {
+                module.innerHTML = "";
                 let header = document.createElement("header");
                 let data = json.data[0];
                 let icon = document.createElement("img");
@@ -45,7 +47,7 @@ function createWeatherModule() {
                 .then(json => {
                     let table = document.createElement("table");
                     let forecast = json.data;
-                    for (let i=1; i<=5; i++) {
+                    for (let i=1; i<=Math.min(15, config.forecast_days); i++) {
                         let row = document.createElement("tr");
                         let date = new Date(forecast[i].datetime);
                         console.log(forecast[i]);
