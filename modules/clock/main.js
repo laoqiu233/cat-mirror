@@ -1,13 +1,13 @@
 function create_clock() {
     Date.prototype.format = function(fmt) {
-        var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         var o = {
             "%%" : "%",
             "%Y" : this.getFullYear(),
             "%y" : this.getFullYear() % 100,
             "%m" : String(this.getMonth()+1).padStart(2, '0'), 
             "%d" : this.getDate(), 
-            "%U" : days[this.getDay()-1],
+            "%U" : days[this.getDay()],
             "%H" : String(this.getHours()).padStart(2, '0'),
             "%I" : String(this.getHours() < 13 ? this.getHours() : this.getHours() - 12).padStart(2, '0'),
             "%M" : String(this.getMinutes()).padStart(2, '0'), 
