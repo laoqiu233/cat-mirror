@@ -1,0 +1,855 @@
+/* TODO:
+ *  - Get better colers please for god's sake
+ *  - Organize everything
+ */
+
+/* Base styles
+ * ====================================
+ */
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                 Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 
+                 'Helvetica Neue', sans-serif, 
+                 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei"; /* Chinese fonts */
+    color: #333;
+    font-size: 1.6rem;
+    line-height: 1;
+    font-weight: 400
+}
+
+/* Typography
+ * ====================================
+ */
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+}
+
+h1 {
+    font-size: 4rem;
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: 3.6rem;
+    line-height: 1.25;
+}
+
+h3 {
+    font-size: 3.2rem;
+    line-height: 1.25;
+}
+
+h4 {
+    font-size: 2.8rem;
+    line-height: 1.4;
+}
+
+h5 {
+    font-size: 2.5rem;
+    line-height: 1.5;
+}
+
+h6 {
+    font-size: 2rem;
+}
+
+/* Grid system
+ * ====================================
+ */
+
+.container {
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+[class*="col"] {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Mobile columns */
+.col-s-1 {width: 8.3333333%;}
+.col-s-2 {width: 16.6666667%;}
+.col-s-3 {width: 25.0%;}
+.col-s-4 {width: 33.3333333%;}
+.col-s-5 {width: 41.6666667%;}
+.col-s-6 {width: 50.0%;}
+.col-s-7 {width: 58.3333333%;}
+.col-s-8 {width: 66.6666667%;}
+.col-s-9 {width: 75.0%;}
+.col-s-10 {width: 83.3333333%;}
+.col-s-11 {width: 91.6666667%;}
+.col-s-12 {width: 100.0%;}
+
+@media (min-width: 1200px) {
+    /* Desktop grid */
+    .col-1 {width: 8.3333333%;}
+    .col-2 {width: 16.6666667%;}
+    .col-3 {width: 25.0%;}
+    .col-4 {width: 33.3333333%;}
+    .col-5 {width: 41.6666667%;}
+    .col-6 {width: 50.0%;}
+    .col-7 {width: 58.3333333%;}
+    .col-8 {width: 66.6666667%;}
+    .col-9 {width: 75.0%;}
+    .col-10 {width: 83.3333333%;}
+    .col-11 {width: 91.6666667%;}
+    .col-12 {width: 100.0%;}
+
+    .offset-1 {margin-left: 8.3333333%;}
+    .offset-2 {margin-left: 16.6666667%;}
+    .offset-3 {margin-left: 25.0%;}
+    .offset-4 {margin-left: 33.3333333%;}
+    .offset-5 {margin-left: 41.6666667%;}
+    .offset-6 {margin-left: 50.0%;}
+    .offset-7 {margin-left: 58.3333333%;}
+    .offset-8 {margin-left: 66.6666667%;}
+    .offset-9 {margin-left: 75.0%;}
+    .offset-10 {margin-left: 83.3333333%;}
+    .offset-11 {margin-left: 91.6666667%;}
+    .offset-12 {margin-left: 100%}
+
+    .offset-half {margin-left: 4.1666667%}
+
+    .container {
+        width: 80%;
+    }
+}
+
+/* Colors
+ * ====================================
+ */
+
+/* Black */
+.c-black,
+input[type="submit"].c-black,
+input[type="reset"].c-black,
+input[type="button"].c-black {
+    color: #222;
+}
+
+.c-black-bg {
+    background-color: #222;
+}
+
+/* White */
+.c-white,
+input[type="submit"].c-white,
+input[type="reset"].c-white,
+input[type="button"].c-white {
+    color: #fff;
+}
+
+.c-white-bg {
+    background-color: #fff;
+}
+
+/* Gray */
+.c-gray {
+    color: #888;
+}
+
+.c-gray-bg {
+    background-color: #888;
+}
+
+/* Blue */
+.c-blue,
+input[type="submit"].c-blue,
+input[type="reset"].c-blue,
+input[type="button"].c-blue {
+    color: #3c88d7;
+}
+
+.c-blue-bg {
+    background-color: #3c88d7;
+}
+
+/* Purple */
+.c-purple,
+input[type="submit"].c-purple,
+input[type="reset"].c-purple,
+input[type="button"].c-purple {
+    color: #a04daf;
+}
+
+.c-purple-bg {
+    background-color: #a04daf;
+}
+
+/* Yellow */
+.c-yellow,
+input[type="submit"].c-yellow,
+input[type="reset"].c-yellow,
+input[type="button"].c-yellow {
+    color: #ffcf39;
+}
+
+.c-yellow-bg {
+    background-color: #ffcf39;
+}
+
+/* Red */
+.c-red,
+input[type="submit"].c-red,
+input[type="reset"].c-red,
+input[type="button"].c-red {
+    color: #fa5b4a;
+}
+
+.c-red-bg {
+    background-color: #fa5b4a;
+}
+
+/* Green */
+.c-green,
+input[type="submit"].c-green,
+input[type="reset"].c-green,
+input[type="button"].c-green {
+    color: #78f758;
+}
+
+.c-green-bg {
+    background-color: #78f758;
+}
+
+/* Force text colors */
+.c-force-white {
+    color: white;
+}
+
+.c-force-black {
+    color: #222;
+}
+
+/* Forms
+ * ====================================
+ */
+
+/* Buttons */
+button,
+.button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    margin-bottom: 1rem;
+    padding: 10px 30px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    background: none;
+    color: #777;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    box-sizing: border-box;
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+button:hover,
+.button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover {
+    border-color: #777;
+}
+
+button.button-filled,
+.button.button-filled,
+input[type="submit"].button-filled,
+input[type="reset"].button-filled,
+input[type="button"].button-filled {
+    color: #fff;
+    background-color: #bbb
+}
+
+button.button-filled:hover,
+.button.button-filled:hover,
+input[type="submit"].button-filled:hover,
+input[type="reset"].button-filled:hover,
+input[type="button"].button-filled:hover {
+    background-color: #777;
+}
+
+button:focus,
+.button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+    outline: none;
+}
+
+/* Rounded button */
+
+button.button-rounded,
+.button.button-rounded,
+input[type="submit"].button-rounded,
+input[type="reset"].button-rounded,
+input[type="button"].button-rounded {
+    border-radius: 100px;
+}
+
+/* Colored buttons */
+
+/* Black */
+button.c-black,
+.button.c-black,
+input[type="submit"].c-black,
+input[type="reset"].c-black,
+input[type="button"].c-black {
+    border-color: #222;
+}
+
+button.c-black:hover,
+.button.c-black:hover,
+input[type="submit"].c-black:hover,
+input[type="reset"].c-black:hover,
+input[type="button"].c-black:hover {
+    color: #666;
+    border-color: #666;
+}
+
+button.c-black.button-filled,
+.button.c-black.button-filled,
+input[type="submit"].c-black.button-filled,
+input[type="reset"].c-black.button-filled,
+input[type="button"].c-black.button-filled {
+    color: #ddd;
+    background-color: #222;
+}
+
+button.c-black.button-filled:hover,
+.button.c-black.button-filled:hover,
+input[type="submit"].c-black.button-filled:hover,
+input[type="reset"].c-black.button-filled:hover,
+input[type="button"].c-black.button-filled:hover {
+    background-color: #666;
+}
+
+/* White */
+button.c-white,
+.button.c-white,
+input[type="submit"].c-white,
+input[type="reset"].c-white,
+input[type="button"].c-white {
+    color: #fff;
+    border-color: #fff;
+}
+
+button.c-white:hover,
+.button.c-white:hover,
+input[type="submit"].c-white:hover,
+input[type="reset"].c-white:hover,
+input[type="button"].c-white:hover {
+    color: #ccc;
+    border-color: #ccc;
+}
+
+button.c-white.button-filled,
+.button.c-white.button-filled,
+input[type="submit"].c-white.button-filled,
+input[type="reset"].c-white.button-filled,
+input[type="button"].c-white.button-filled {
+    color: #222;
+    background-color: #fff;
+}
+
+button.c-white.button-filled:hover,
+.button.c-white.button-filled:hover,
+input[type="submit"].c-white.button-filled:hover,
+input[type="reset"].c-white.button-filled:hover,
+input[type="button"].c-white.button-filled:hover {
+    background-color: #ccc;
+}
+
+/* Blue */
+button.c-blue,
+.button.c-blue,
+input[type="submit"].c-blue,
+input[type="reset"].c-blue,
+input[type="button"].c-blue {
+    border-color: #3c88d7;
+}
+
+button.c-blue:hover,
+.button.c-blue:hover,
+input[type="submit"].c-blue:hover,
+input[type="reset"].c-blue:hover,
+input[type="button"].c-blue:hover {
+    color: #66a5e9;
+    border-color: #66a5e9;
+}
+
+button.c-blue.button-filled,
+.button.c-blue.button-filled,
+input[type="submit"].c-blue.button-filled,
+input[type="reset"].c-blue.button-filled,
+input[type="button"].c-blue.button-filled {
+    color: #fff;
+    background-color: #3c88d7;
+}
+
+button.c-blue.button-filled:hover,
+.button.c-blue.button-filled:hover,
+input[type="submit"].c-blue.button-filled:hover,
+input[type="reset"].c-blue.button-filled:hover,
+input[type="button"].c-blue.button-filled:hover {
+    background-color: #66a5e9;
+}
+
+/* Purple */
+button.c-purple,
+.button.c-purple,
+input[type="submit"].c-purple,
+input[type="reset"].c-purple,
+input[type="button"].c-purple {
+    border-color: #a04daf;
+}
+
+button.c-purple:hover,
+.button.c-purple:hover,
+input[type="submit"].c-purple:hover,
+input[type="reset"].c-purple:hover,
+input[type="button"].c-purple:hover {
+    color: #c672d4;
+    border-color: #c672d4;
+}
+
+button.c-purple.button-filled,
+.button.c-purple.button-filled,
+input[type="submit"].c-purple.button-filled,
+input[type="reset"].c-purple.button-filled,
+input[type="button"].c-purple.button-filled {
+    color: #fff;
+    background-color: #a04daf;
+}
+
+button.c-purple.button-filled:hover,
+.button.c-purple.button-filled:hover,
+input[type="submit"].c-purple.button-filled:hover,
+input[type="reset"].c-purple.button-filled:hover,
+input[type="button"].c-purple.button-filled:hover {
+    background-color: #c672d4;
+}
+
+/* Yellow */
+button.c-yellow,
+.button.c-yellow,
+input[type="submit"].c-yellow,
+input[type="reset"].c-yellow,
+input[type="button"].c-yellow {
+    border-color: #ffcf39;
+}
+
+button.c-yellow:hover,
+.button.c-yellow:hover,
+input[type="submit"].c-yellow:hover,
+input[type="reset"].c-yellow:hover,
+input[type="button"].c-yellow:hover {
+    color: #ffe28a;
+    border-color: #ffe28a;
+}
+
+button.c-yellow.button-filled,
+.button.c-yellow.button-filled,
+input[type="submit"].c-yellow.button-filled,
+input[type="reset"].c-yellow.button-filled,
+input[type="button"].c-yellow.button-filled {
+    color: #222;
+    background-color: #ffcf39;
+}
+
+button.c-yellow.button-filled:hover,
+.button.c-yellow.button-filled:hover,
+input[type="submit"].c-yellow.button-filled:hover,
+input[type="reset"].c-yellow.button-filled:hover,
+input[type="button"].c-yellow.button-filled:hover {
+    background-color: #ffe28a;
+}
+
+/* Red */
+button.c-red,
+.button.c-red,
+input[type="submit"].c-red,
+input[type="reset"].c-red,
+input[type="button"].c-red {
+    border-color: #fa5b4a
+}
+
+button.c-red:hover,
+.button.c-red:hover,
+input[type="submit"].c-red:hover,
+input[type="reset"].c-red:hover,
+input[type="button"].c-red:hover {
+    color: #ff6f5f;
+    border-color: #ff6f5f;
+}
+
+button.c-red.button-filled,
+.button.c-red.button-filled,
+input[type="submit"].c-red.button-filled,
+input[type="reset"].c-red.button-filled,
+input[type="button"].c-red.button-filled {
+    color: #fff;
+    background-color: #fa5b4a;
+}
+
+button.c-red.button-filled:hover,
+.button.c-red.button-filled:hover,
+input[type="submit"].c-red.button-filled:hover,
+input[type="reset"].c-red.button-filled:hover,
+input[type="button"].c-red.button-filled:hover {
+    background-color: #ff6f5f;
+}
+
+/* Green */
+button.c-green,
+.button.c-green,
+input[type="submit"].c-green,
+input[type="reset"].c-green,
+input[type="button"].c-green {
+    border-color: #78f758;
+}
+
+button.c-green:hover,
+.button.c-green:hover,
+input[type="submit"].c-green:hover,
+input[type="reset"].c-green:hover,
+input[type="button"].c-green:hover {
+    color: #a2fc8c;
+    border-color: #a2fc8c;
+}
+
+button.c-green.button-filled,
+.button.c-green.button-filled,
+input[type="submit"].c-green.button-filled,
+input[type="reset"].c-green.button-filled,
+input[type="button"].c-green.button-filled {
+    color: #222;
+    background-color: #78f758;
+}
+
+button.c-green.button-filled:hover,
+.button.c-green.button-filled:hover,
+input[type="submit"].c-green.button-filled:hover,
+input[type="reset"].c-green.button-filled:hover,
+input[type="button"].c-green.button-filled:hover {
+    background-color: #a2fc8c;
+}
+
+/* Text inputs */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 8px 10px; 
+    margin-bottom: 1.5rem;
+
+    box-sizing: border-box;
+    transition: 0.15s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #777;
+}
+
+/* Colored textboxes */
+
+/* Black */
+
+input[type="text"].c-black,
+input[type="email"].c-black,
+input[type="password"].c-black,
+input[type="search"].c-black,
+input[type="tel"].c-black,
+input[type="url"].c-black,
+textarea.c-black,
+select.c-black {
+    border-color: #222;
+}
+
+input[type="text"].c-black:focus,
+input[type="email"].c-black:focus,
+input[type="password"].c-black:focus,
+input[type="search"].c-black:focus,
+input[type="tel"].c-black:focus,
+input[type="url"].c-black:focus,
+textarea.c-black:focus,
+select.c-black:focus {
+    border-color: #666;
+}
+
+/* White */
+
+input[type="text"].c-white,
+input[type="email"].c-white,
+input[type="password"].c-white,
+input[type="search"].c-white,
+input[type="tel"].c-white,
+input[type="url"].c-white,
+textarea.c-white,
+select.c-white {
+    border-color: #fff;
+}
+
+input[type="text"].c-white:focus,
+input[type="email"].c-white:focus,
+input[type="password"].c-white:focus,
+input[type="search"].c-white:focus,
+input[type="tel"].c-white:focus,
+input[type="url"].c-white:focus,
+textarea.c-white:focus,
+select.c-white:focus {
+    border-color: #ccc;
+}
+
+/* Blue */
+
+input[type="text"].c-blue,
+input[type="email"].c-blue,
+input[type="password"].c-blue,
+input[type="search"].c-blue,
+input[type="tel"].c-blue,
+input[type="url"].c-blue,
+textarea.c-blue,
+select.c-blue {
+    border-color: #3c88d7;
+}
+
+input[type="text"].c-blue:focus,
+input[type="email"].c-blue:focus,
+input[type="password"].c-blue:focus,
+input[type="search"].c-blue:focus,
+input[type="tel"].c-blue:focus,
+input[type="url"].c-blue:focus,
+textarea.c-blue:focus,
+select.c-blue:focus {
+    border-color: #66a5e9;
+}
+
+/* Purple */
+
+input[type="text"].c-purple,
+input[type="email"].c-purple,
+input[type="password"].c-purple,
+input[type="search"].c-purple,
+input[type="tel"].c-purple,
+input[type="url"].c-purple,
+textarea.c-purple,
+select.c-purple {
+    border-color: #a04daf;
+}
+
+input[type="text"].c-purple:focus,
+input[type="email"].c-purple:focus,
+input[type="password"].c-purple:focus,
+input[type="search"].c-purple:focus,
+input[type="tel"].c-purple:focus,
+input[type="url"].c-purple:focus,
+textarea.c-purple:focus,
+select.c-purple:focus {
+    border-color: #c672d4;
+}
+
+input[type="text"].c-yellow,
+input[type="email"].c-yellow,
+input[type="password"].c-yellow,
+input[type="search"].c-yellow,
+input[type="tel"].c-yellow,
+input[type="url"].c-yellow,
+textarea.c-yellow,
+select.c-yellow {
+    border-color: #ffcf39;
+}
+
+input[type="text"].c-yellow:focus,
+input[type="email"].c-yellow:focus,
+input[type="password"].c-yellow:focus,
+input[type="search"].c-yellow:focus,
+input[type="tel"].c-yellow:focus,
+input[type="url"].c-yellow:focus,
+textarea.c-yellow:focus,
+select.c-yellow:focus {
+    border-color: #ffe28a;
+}
+
+/* Red */
+input[type="text"].c-red,
+input[type="email"].c-red,
+input[type="password"].c-red,
+input[type="search"].c-red,
+input[type="tel"].c-red,
+input[type="url"].c-red,
+textarea.c-red,
+select.c-red {
+    border-color: #fa5b4a;
+}
+
+input[type="text"].c-red:focus,
+input[type="email"].c-red:focus,
+input[type="password"].c-red:focus,
+input[type="search"].c-red:focus,
+input[type="tel"].c-red:focus,
+input[type="url"].c-red:focus,
+textarea.c-red:focus,
+select.c-red:focus {
+    border-color: #ff6f5f;
+}
+
+input[type="text"].c-green,
+input[type="email"].c-green,
+input[type="password"].c-green,
+input[type="search"].c-green,
+input[type="tel"].c-green,
+input[type="url"].c-green,
+textarea.c-green,
+select.c-green {
+    border-color: #78f758;
+}
+
+input[type="text"].c-green:focus,
+input[type="email"].c-green:focus,
+input[type="password"].c-green:focus,
+input[type="search"].c-green:focus,
+input[type="tel"].c-green:focus,
+input[type="url"].c-green:focus,
+textarea.c-green:focus,
+select.c-green:focus {
+    border-color: #a2fc8c;
+}
+
+/* Labels
+ * ====================================
+ */
+
+label.on-top {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+}
+
+/* Table
+ * ====================================
+ */
+
+table {
+    border-collapse: collapse;
+    margin: 0 0 20px 0;
+}
+
+td,
+th {
+    border-bottom: 1px solid #CCC;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    border-bottom-color: #999;
+    font-weight: normal;
+}
+
+/* Checkboxes
+ * ====================================
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: inline-block;
+    margin: 0 0.5rem 0 0.3rem;
+    font-weight: normal;
+}
+
+/* Misc
+ * ====================================
+ */
+
+/* Hyperlink */
+
+a {
+    color: #3c88d7;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #66a5e9;
+    text-decoration-line: underline;
+}
+
+/* Code */
+
+pre {
+    box-sizing: border-box;
+    margin: 0 0 20px 0;
+    max-width: 100%;
+    overflow-x: auto;
+    background: #EEE;
+    padding: 10px 20px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+}
+
+/* Utilities
+ * ====================================
+ */
+
+.container::after,
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.u-full-vh {
+    height: 100vh;
+    display: border-box;
+}
+
+.u-full-width {
+    width: 100%;
+    display: border-box
+}
+
+.u-pull-left {
+    float: left;
+}
+
+.u-pull-right {
+    float: right;
+}
+
+.u-no-bg {
+    background: none;
+}
+
+.u-drop-shadow {
+    box-shadow: 0 10px 25px 5px rgba(77, 77, 77, 0.274)
+}
