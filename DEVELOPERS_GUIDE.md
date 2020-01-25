@@ -37,6 +37,7 @@ config = {
     'views': [('/clock/format', 'clock-format', change_format, ['GET', 'POST'])], # Custom views
     # A custom view should be a tuple with the following format:
     # (View route, View end-point, View function, The methods this view supports(Optional))
+    # View route should follow the format of /*module name*/*route*
     'config': lambda: 'Testing' # The config page, route is automatically set to /config/*module name*
 }
 ```
