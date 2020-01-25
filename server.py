@@ -3,10 +3,6 @@ import os, importlib
 
 app = Flask(__name__)
 
-@app.route('/config/')
-def config_page():
-    return render_template('config.html', modules=modules.values())
-
 modules = {}
 
 # Import modules
@@ -16,7 +12,7 @@ for folder in os.listdir(os.path.join('.', 'modules')):
         try:
             module = importlib.import_module('modules.{}.module'.format(folder))
         except:
-            '$INFO$[Warning] Cannot import module {}'.format(folder)
+            print('$INFO$[Warning] Cannot import module "{}"'.format(folder))
             continue
         # Check if module.py file is valid
         try:
@@ -52,6 +48,10 @@ def serve_module_static(module, path):
     if not os.path.exists(os.path.join(*(['.', 'modules', module] + path.split('/')))):
         abort(404)
     return send_file(os.path.join(*(['.', 'modules', module] + path.split('/'))))
+
+@app.route('/config/')
+def config_page():
+    return render_template('config.html', modules=modules.values())
 
 def filter_by_pos(modules, positions):
     filtered = modules
