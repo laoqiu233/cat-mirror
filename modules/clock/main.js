@@ -50,7 +50,7 @@ function create_clock() {
     var event_source = new EventSource("/clock/stream");
     event_source.onmessage = e => {
         let format = JSON.parse(e.data);
-        console.log(format);
+        //console.log(format);
         format_header = format.header;
         format_subtitle = format.subtitle;
     }

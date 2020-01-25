@@ -50,7 +50,7 @@ function createWeatherModule() {
                     for (let i=1; i<=Math.min(15, config.forecast_days); i++) {
                         let row = document.createElement("tr");
                         let date = new Date(forecast[i].datetime);
-                        console.log(forecast[i]);
+                        //console.log(forecast[i]);
                         row.innerHTML = `
                         <td>${date.format(i <= 3 ? "%U" : "%m-%d")}</td>
                         <td><img src="https://www.weatherbit.io/static/img/icons/${forecast[i].weather.icon}.png" style="max-width:50px"></td>

@@ -44,7 +44,7 @@ def change_format():
         
         return jsonify(config_file)
 
-def config():
+def config_view():
     # Simply renders the config page
     with open(os.path.join('.', 'modules', 'clock', 'config.html')) as file:
         return render_template_string(file.read())
@@ -57,5 +57,5 @@ config = {
     'scripts': ['main.js'],
     'views': [('/clock/format', 'clock-format', change_format, ['GET', 'POST']),
               ('/clock/stream', 'clock-stream', stream)],
-    'config': config,
+    'config': config_view,
 }
