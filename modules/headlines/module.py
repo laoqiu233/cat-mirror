@@ -25,7 +25,7 @@ def config_view():
     
 
 config = {
-    'key': '0e59a5b1734e447881df5067bab530d2',
+    'key': '',
     'country': 'us', # 2-letter ISO 3166-1 code
     'name': 'headlines',
     'renderer': None,
