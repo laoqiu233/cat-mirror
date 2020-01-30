@@ -43,6 +43,9 @@ config = {
 ```
 
 # Notes for Developers
+## Serving module static files
+In case if you need to serve some module-specific static file, you can use the route 
+`/<module_name>/<path_to_file>`.
 ## CSS
 When writing CSS styles, remember to add `#module-*ModuleName*` before every one of your selectors to avoid conflicts between diffrent modules.
 Since modules are warpped inside a *div* element with an id of `#module-*ModuleName*`.
