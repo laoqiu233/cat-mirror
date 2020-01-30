@@ -1,0 +1,22 @@
+{
+    "short_name": "Mirror",
+    "name": "Cat-Mirror",
+    "icons": [
+        {
+            "src": "/static/cat.png",
+            "type": "image/png",
+            "sizes": "200x200"
+        },
+        {
+            "src": "/static/cat-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/config/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "theme_color": "#FFF",
+    "background_color": "#FFF"
+}
