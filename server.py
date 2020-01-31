@@ -3,10 +3,16 @@ import os, importlib
 
 app = Flask(__name__)
 
-modules = {}
+modules = []
+to_load = [
+    'voice',
+    'clock',
+    'headlines',
+    'weather',
+]
 
 # Import modules
-for folder in os.listdir(os.path.join('.', 'modules')):
+for folder in to_load:
     # Is valid module
     if os.path.exists(os.path.join('.', 'modules', folder, 'module.py')):
         try:
@@ -34,14 +40,16 @@ for folder in os.listdir(os.path.join('.', 'modules')):
             continue
             
         print('$INFO$[Modules] Module {} loaded'.format(folder))
-        modules[folder] = module.config
+        modules.append(module.config)
+    else:
+        print('$INFO$[Modules] Failed to find module "{}"'.format(folder))
 
 @app.route('/')
 def index():
     # Take user to config page if not using the Electron client
     if request.user_agent.string.find('Electron') < 0:
         return redirect(url_for('config_page'))
-    return render_template('index.html', modules=modules.values(), filter=filter_by_pos)
+    return render_template('index.html', modules=modules, filter=filter_by_pos)
 
 @app.route('/<string:module>/<path:path>')
 def serve_module_static(module, path):
@@ -51,7 +59,7 @@ def serve_module_static(module, path):
 
 @app.route('/config/')
 def config_page():
-    return render_template('config.html', modules=modules.values())
+    return render_template('config.html', modules=modules)
 
 def filter_by_pos(modules, positions):
     filtered = modules
