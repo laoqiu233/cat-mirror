@@ -29,10 +29,12 @@ function startVoiceRecognition(language) {
             if (annyang.isListening()) {
                 button.classList.replace('c-red', 'c-blue');
                 text.innerHTML = 'Start';
+                results_dom.classList.remove('hidden');
                 annyang.pause();
             } else {
                 button.classList.replace('c-blue', 'c-red');
                 text.innerHTML = 'Listening...';
+                results_dom.classList.add('hidden');
                 annyang.resume();
             }
         });
