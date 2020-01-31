@@ -1,5 +1,16 @@
 var voice_module_commands = {
-    '/(?:(?:Ok)|(?:Okay)) boomer (.+)/i': function(match) {document.getElementById('module-voice').innerHTML=`<h1>${match[1]}</h1>`}
+    '/display text (.+)/i': function(match) {document.getElementById('module-voice').innerHTML=`<h1>${match[1]}</h1>`;},
+    '/lights ((?:on)|(?:off))/i': function(match) {match[1] == 'on' ? document.body.style.background='white' : document.body.style.background='black';},
+    '/hide/i': function() {
+        [...document.getElementsByClassName('container')].forEach(container => {
+            container.style.opacity = 0;
+        })
+    },
+    '/show/i': function() {
+        [...document.getElementsByClassName('container')].forEach(container => {
+            container.style.opacity = 1;
+        })
+    }
 }
 
 function createVoiceModule() {
