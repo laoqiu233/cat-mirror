@@ -16,5 +16,8 @@ Simply type `npm start` to boot the mirror.
 - [x] Make a config navigation page for all modules.  
 - [x] Write weather module  
 - [ ] Reduce the amount of front-end css code  
-- [X] News module  
-- [ ] Voice Control  
+- [x] News module  
+- [x] PWA for Chrome (?)
+- [ ] Voice Control
+    - [ ] Basic module for testing
+    - [ ] Interface for other modules 
