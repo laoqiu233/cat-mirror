@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ds.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+    <title>Voice Control</title>
+</head>
+<body>
+    <button class="c-blue button-filled button-rounded" id="voice-control"><h1 id="voice-text">Start</h1></button>
+    <h2 id="voice-result"></h2>
+    <script src="/voice/voice.js"></script>
+</body>
+</html>

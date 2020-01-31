@@ -40,5 +40,5 @@ will have a icon, splash screen, and function almost like an actual PWA.
 - [x] News module  
 - [x] PWA for Chrome (?)
 - [ ] Voice Control
-    - [ ] Basic module for testing
+    - [x] Basic module for testing
     - [ ] Interface for other modules 
