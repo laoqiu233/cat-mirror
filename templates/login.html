@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ds.css') }}">
+    <link rel="stylesheet" href="../static/ds.css">
+    <title>Login|Cat-Mirror</title>
+    <style>
+        .login {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        #login-heading {
+            font-size: 5rem;
+            margin-bottom: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login">
+            <form action="/login/" method="POST">
+                <h1 id="login-heading" class="c-purple">Cat-Mirror</h1>
+                <input type="password" name="login-password" id="login-password" placeholder="Your Password" {% if error %}class="c-red"{% endif %}>
+                <input type="submit" value="Login" class="c-purple">
+                {% if error %}
+                <p class="c-red">The password you entered is incorrect.</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>

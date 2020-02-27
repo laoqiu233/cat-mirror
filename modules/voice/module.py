@@ -36,8 +36,8 @@ config = {
     'pos': ['top', 'right'],
     'renderer': None,
     'scripts': ['main.js'],
-    'views': [('/voice/command', 'voice-command', getCommand, ['POST']),
+    'views': [('/voice/command', 'voice-command', getCommand, ['POST'], True),
               ('/voice/stream', 'voice-stream', stream),
-              ('/voice/config', 'voice-config', get_config)],
+              ('/voice/config', 'voice-config', get_config, ['GET'], True)],
     'config': config_view
 }

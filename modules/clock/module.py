@@ -55,7 +55,7 @@ config = {
     'pos': ['bottom', 'left'],
     'styles': ['clock.css'],
     'scripts': ['main.js'],
-    'views': [('/clock/format', 'clock-format', change_format, ['GET', 'POST']),
+    'views': [('/clock/format', 'clock-format', change_format, ['GET', 'POST'], True),
               ('/clock/stream', 'clock-stream', stream)],
     'config': config_view,
 }

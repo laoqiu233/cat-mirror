@@ -1,5 +1,31 @@
-from flask import Flask, request, render_template, send_file, abort, redirect, url_for
-import os, importlib
+from flask import Flask, request, render_template, send_file, abort, redirect, url_for, make_response
+from modules.middlewares import secure
+import os, importlib, jwt, time, json
+
+settings = {}
+
+with open('settings.json') as settings_file:
+    settings = json.load(settings_file)
+
+def generate_token(expiration=60*60*24):
+    # Default expiration is a day
+    curr_time = int(time.time())
+    secret = settings.get('secret', '')
+
+    token = jwt.encode({
+        'iss': 'cat-mirror',
+        'iat': curr_time,
+        'exp': curr_time + expiration # Cookie lives for a day 
+    }, secret, algorithm='HS256')
+
+    return token
+
+def add_module_view(url, endpoint, handler, methods=['GET'], secure_view=False):
+    print(url, methods)
+    if secure:
+        app.add_url_rule(url, endpoint, secure(handler), methods=methods)
+    else:
+        app.add_url_rule(url, endpoint, handler, methods=methods)
 
 app = Flask(__name__)
 
@@ -10,6 +36,7 @@ to_load = [
     'headlines',
     'weather',
 ]
+served = False
 
 # Import modules
 for folder in to_load:
@@ -28,12 +55,12 @@ for folder in to_load:
 
             if 'config' in module.config:
                 assert callable(module.config.get('config', ''))
-                app.add_url_rule('/config/{}'.format(folder), 'config-{}'.format(folder), module.config['config'])
+                add_module_view('/config/{}'.format(folder), 'config-{}'.format(folder), module.config['config'], secure_view=True)
 
             for view in module.config.get('views', ''):
                 assert callable(view[2])
-                assert 3 <= len(view) <= 4
-                app.add_url_rule(*view[0:3], methods=['GET'] if len(view) == 3 else view[3])
+                assert 3 <= len(view) <= 5
+                add_module_view(*view)
 
         except AssertionError:
             print('$INFO$[Warning] Module.py file for module "{}" is invalid!'.format(folder))
@@ -46,20 +73,43 @@ for folder in to_load:
 
 @app.route('/')
 def index():
+    global served
     # Take user to config page if not using the Electron client
     if request.user_agent.string.find('Electron') < 0:
         return redirect(url_for('config_page'))
-    return render_template('index.html', modules=modules, filter=filter_by_pos)
+    if not served:
+        served = True
+        response = make_response(render_template('index.html', modules=modules, filter=filter_by_pos))
+        response.set_cookie('jwt', generate_token(365 * 24 * 60 * 60))
+        return response
+    else:
+        abort(401)
+
+@app.route('/config/')
+@secure
+def config_page():
+    return render_template('config.html', modules=modules)
+
+@app.route('/login/', methods=['GET', 'POST'])
+def login_page():
+    if request.cookies.get('jwt', ''):
+        return redirect('/')
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        if request.form.get('login-password') == settings.get('password', ''):
+            response = redirect('/')
+            response.set_cookie('jwt', generate_token())
+        else:
+            response = render_template('login.html', error=True)
+        return response
 
 @app.route('/<string:module>/<path:path>')
+@secure
 def serve_module_static(module, path):
     if not os.path.exists(os.path.join(*(['.', 'modules', module] + path.split('/')))):
         abort(404)
     return send_file(os.path.join(*(['.', 'modules', module] + path.split('/'))))
-
-@app.route('/config/')
-def config_page():
-    return render_template('config.html', modules=modules)
 
 def filter_by_pos(modules, positions):
     filtered = modules

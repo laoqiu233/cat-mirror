@@ -19,13 +19,13 @@ function startVoiceRecognition(language) {
             results_dom.innerHTML = results[0];
             fetch('/voice/command', {
                 method: 'POST',
-                body: results[0]
+                body: results[0],
+                credentials: 'include'
             })
             button.click();
         });
 
         button.addEventListener('click', function() {
-            console.log(annyang.isListening());
             if (annyang.isListening()) {
                 button.classList.replace('c-red', 'c-blue');
                 text.innerHTML = 'Start';

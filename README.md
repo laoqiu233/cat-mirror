@@ -41,4 +41,7 @@ will have a icon, splash screen, and function almost like an actual PWA.
 - [x] PWA for Chrome (?)
 - [ ] Voice Control
     - [x] Basic module for testing
-    - [ ] Interface for other modules 
+    - [ ] Interface for other modules
+- [x] Login Security
+    - [x] Basic login page
+    - [x] Authentication

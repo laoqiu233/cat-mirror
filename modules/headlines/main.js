@@ -20,7 +20,8 @@ function createHeadlinesModule() {
                     body: JSON.stringify(news),
                     headers: {
                         'content-type': 'application/json'
-                    }
+                    },
+                    credentials: "include"
                 })
                 if (render) {
                     renderHeadline(0);
@@ -56,7 +57,7 @@ function createHeadlinesModule() {
     }
 
     // Get API key and region
-    fetch('/headlines/config')
+    fetch('/headlines/config', {credentials: 'include'})
     .then(data => data.json())
     .then(json => {
         config = json;

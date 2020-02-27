@@ -30,8 +30,8 @@ config = {
     'name': 'headlines',
     'renderer': None,
     'pos': ['bottom', 'mid'],
-    'views': [('/headlines/config', 'headlines-config', getConfig),
-              ('/headlines/news', 'headlines-news', news, ['POST'])],
+    'views': [('/headlines/config', 'headlines-config', getConfig, ['GET'], True),
+              ('/headlines/news', 'headlines-news', news, ['POST'], True)],
     'scripts': ['main.js'],
     'styles': ['styles.css'],
     'config': config_view
