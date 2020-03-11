@@ -1,28 +1,10 @@
 from flask import Flask, request, render_template, send_file, abort, redirect, url_for, make_response
-from modules.middlewares import secure
-import os, importlib, jwt, time, json
-
-settings = {}
-
-with open('settings.json') as settings_file:
-    settings = json.load(settings_file)
-
-def generate_token(expiration=60*60*24):
-    # Default expiration is a day
-    curr_time = int(time.time())
-    secret = settings.get('secret', '')
-
-    token = jwt.encode({
-        'iss': 'cat-mirror',
-        'iat': curr_time,
-        'exp': curr_time + expiration # Cookie lives for a day 
-    }, secret, algorithm='HS256')
-
-    return token
+from middlewares import secure
+from utils import settings, generate_token
+import os, importlib, json
 
 def add_module_view(url, endpoint, handler, methods=['GET'], secure_view=False):
-    print(url, methods)
-    if secure:
+    if secure_view:
         app.add_url_rule(url, endpoint, secure(handler), methods=methods)
     else:
         app.add_url_rule(url, endpoint, handler, methods=methods)
