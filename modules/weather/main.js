@@ -1,7 +1,7 @@
 function createWeatherModule() {
     let config = {
         // Put your Weatherbit.io API key here
-        key: "b38c8e5e59ff472f951e8ba14aa7ba20",
+        key: "",
         forecast_days: 5
     }
 
@@ -13,7 +13,7 @@ function createWeatherModule() {
             data.json().then(json => {
                 city = json.city;
                 updateWeather()
-                setInterval(updateWeather, 1000 * 60 * 5) // Update every five minutes
+                setInterval(updateWeather, 1000 * 60 * 60) // Update every hour
             })
         } else {
             module.innerHTML = "<h2>Something went wrong with the weather module!</h2>"
