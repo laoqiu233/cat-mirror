@@ -40,7 +40,7 @@ function createWeatherModule() {
                 header.appendChild(icon);
                 header.innerHTML += `<h1>${data.temp}°C</h1>`;
                 module.appendChild(header);
-                module.innerHTML += "<br><h2>Weather Forecast</h2>"
+                module.innerHTML += `<br><h3>Weather Forecast for ${city}</h3>`
                 
                 fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city}&key=${config.key}`)
                 .then(resp => resp.json())
@@ -53,7 +53,7 @@ function createWeatherModule() {
                         //console.log(forecast[i]);
                         row.innerHTML = `
                         <td>${date.format(i <= 3 ? "%U" : "%m-%d")}</td>
-                        <td><img src="https://www.weatherbit.io/static/img/icons/${forecast[i].weather.icon}.png" style="max-width:50px"></td>
+                        <td><img src="https://www.weatherbit.io/static/img/icons/${forecast[i].weather.icon}.png" style="max-width:5rem"></td>
                         <td>${forecast[i].high_temp}°C</td>
                         <td style="color:#CCC">${forecast[i].low_temp}°C</td>
                         `;

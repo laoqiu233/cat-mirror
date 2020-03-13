@@ -37,8 +37,8 @@ function createHeadlinesModule() {
             let split_index = news[index].title.split('').reverse().indexOf('-');
 
             module.innerHTML = `
-                <h3>${news[index].title.slice(0, news[index].title.length - 1 - split_index).trim()}</h3>
-                <h4>${news[index].title.slice(news[index].title.length - split_index).trim()} - ${new Date(news[index].publishedAt).format("%Y-%m-%d %H:%M:%S")}</h4>
+                <h3 style='font-size:2.5rem;'>${news[index].title.slice(0, news[index].title.length - 1 - split_index).trim()}</h3>
+                <h4 style='color:#AAA;font-size:2rem;'>${news[index].title.slice(news[index].title.length - split_index).trim()} - ${new Date(news[index].publishedAt).format("%Y-%m-%d %H:%M:%S")}</h4>
             `;
 
             console.log(news[index].title);
