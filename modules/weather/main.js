@@ -37,6 +37,7 @@ function createWeatherModule() {
                 let data = json.data[0];
                 let icon = document.createElement("img");
                 icon.src = `https://www.weatherbit.io/static/img/icons/${data.weather.icon}.png`;
+                icon.style.width = "12rem";
                 header.appendChild(icon);
                 header.innerHTML += `<h1>${data.temp}°C</h1>`;
                 module.appendChild(header);
