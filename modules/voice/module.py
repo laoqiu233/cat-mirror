@@ -17,6 +17,23 @@ def getCommand():
     commands.put(request.data.decode(encoding='utf8'))
     return 'ok'
 
+response_text = ''
+
+def responseStream():
+    def generator():
+        global response_text
+        while True:
+            if response_text:
+                _ = response_text
+                response_text = ''
+                yield 'data: {}\n\n'.format(_)
+    return Response(generator(), mimetype='text/event-stream')
+
+def getResponse():
+    global response_text
+    response_text = request.data.decode(encoding='utf8')
+    return 'ok'
+
 def get_config():
     # Serve user configurations for front-end
     return jsonify({
@@ -38,6 +55,8 @@ config = {
     'scripts': ['main.js'],
     'views': [('/voice/command', 'voice-command', getCommand, ['POST'], True),
               ('/voice/stream', 'voice-stream', stream),
+              ('/voice/response', 'voice-response', getResponse, ['POST'], True),
+              ('/voice/response-stream', 'voice-response-stream', responseStream),
               ('/voice/config', 'voice-config', get_config, ['GET'], True)],
     'config': config_view
 }

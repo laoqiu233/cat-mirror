@@ -25,7 +25,21 @@ function createVoiceModule() {
             let regex = new RegExp(pattern.split('/')[1], pattern.split('/')[2]);
             if (regex.test(e.data)) {
                 // Execute function if matched
-                voice_module_commands[pattern](regex.exec(e.data));
+
+                // Respond helper function
+                let respond = (Response) => {
+                    let start = Date.now();
+                    // If the response is still relevant
+                    if (Date.now() - start <= 2000) {
+                        fetch('/voice/response', {
+                            method: 'POST',
+                            body: Response,
+                            credentials: 'include'
+                        })
+                    }
+                }
+
+                voice_module_commands[pattern](regex.exec(e.data), respond);
                 break;
             }
         }
