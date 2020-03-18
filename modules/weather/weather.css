@@ -3,17 +3,17 @@
     width: 45rem;
 }
 
-#module-weather h2 {clear:both;margin-bottom:1rem}
+#module-weather h3 {clear:both;margin-bottom:1rem}
 
 .left #module-weather header *,
 .mid #module-weather header *,
-.left #module-weather h2,
-.mid #module-weather h2 {
+.left #module-weather h3,
+.mid #module-weather h3 {
     float: left;
 }
 
 .right #module-weather header *,
-.right #module-weather h2 {
+.right #module-weather h3 {
     float: right;
 }
 

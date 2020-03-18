@@ -41,7 +41,7 @@ function createWeatherModule() {
                 header.appendChild(icon);
                 header.innerHTML += `<h1>${data.temp}°C</h1>`;
                 module.appendChild(header);
-                module.innerHTML += `<br><h3>Weather Forecast for ${city}</h3>`
+                module.innerHTML += `<h3>Weather Forecast for ${city}</h3>`
                 
                 fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city}&key=${config.key}`)
                 .then(resp => resp.json())
