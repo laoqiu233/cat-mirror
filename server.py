@@ -1,13 +1,10 @@
 from flask import Flask, request, render_template, send_file, abort, redirect, url_for, make_response
-from middlewares import secure
-from utils import settings, generate_token
+from modules.middlewares import make_safe
+from modules.utils import settings, generate_token
 import os, importlib, json
 
-def add_module_view(url, endpoint, handler, methods=['GET'], secure_view=False):
-    if secure_view:
-        app.add_url_rule(url, endpoint, secure(handler), methods=methods)
-    else:
-        app.add_url_rule(url, endpoint, handler, methods=methods)
+def add_module_view(url, endpoint, handler, methods=['GET']):
+    app.add_url_rule(url, endpoint, handler, methods=methods)
 
 app = Flask(__name__)
 
@@ -37,7 +34,7 @@ for folder in to_load:
 
             if 'config' in module.config:
                 assert callable(module.config.get('config', ''))
-                add_module_view('/config/{}'.format(folder), 'config-{}'.format(folder), module.config['config'], secure_view=True)
+                add_module_view('/config/{}'.format(folder), 'config-{}'.format(folder), module.config['config'])
 
             for view in module.config.get('views', ''):
                 assert callable(view[2])
@@ -68,7 +65,7 @@ def index():
         abort(401)
 
 @app.route('/config/')
-@secure
+@make_safe
 def config_page():
     return render_template('config.html', modules=modules)
 
@@ -87,7 +84,7 @@ def login_page():
         return response
 
 @app.route('/<string:module>/<path:path>')
-@secure
+@make_safe
 def serve_module_static(module, path):
     if not os.path.exists(os.path.join(*(['.', 'modules', module] + path.split('/')))):
         abort(404)

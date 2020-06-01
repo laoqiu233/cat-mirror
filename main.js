@@ -32,7 +32,6 @@ app.on('ready', () => {
             win.loadURL('http://localhost:12306');
         } else {
             let data = fs.readFileSync('templates/failed.html').toString();
-            console.log('data:text/html;charset=utf-8,' + encodeURI(data.replace('{%err%}', `${errCode} ${errDesc}`)));
             win.loadURL('data:text/html;charset=utf-8,' + encodeURI(data.replace('{%err%}', `${errCode} ${errDesc}`)));
             win.webContents.removeListener('did-fail-load', fail_load);
         }

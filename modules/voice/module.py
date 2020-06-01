@@ -1,4 +1,5 @@
 from flask import render_template_string, request, Response, jsonify
+from ..middlewares import make_safe
 import os, queue
 
 commands = queue.Queue()
@@ -12,7 +13,8 @@ def stream():
                 yield 'data: {}\n\n'.format(command)
     return Response(generator(), mimetype='text/event-stream')
 
-def getCommand():
+@make_safe
+def receiveCommand():
     # Put incoming commands into queue
     commands.put(request.data.decode(encoding='utf8'))
     return 'ok'
@@ -29,12 +31,14 @@ def responseStream():
                 yield 'data: {}\n\n'.format(_)
     return Response(generator(), mimetype='text/event-stream')
 
-def getResponse():
+@make_safe
+def receiveResponse():
     global response_text
     response_text = request.data.decode(encoding='utf8')
     return 'ok'
 
-def get_config():
+@make_safe
+def moduleConfig():
     # Serve user configurations for front-end
     return jsonify({
         'language': config['language']
@@ -53,10 +57,10 @@ config = {
     'pos': ['top', 'right'],
     'renderer': None,
     'scripts': ['main.js'],
-    'views': [('/voice/command', 'voice-command', getCommand, ['POST'], True),
+    'views': [('/voice/command', 'voice-command', receiveCommand, ['POST']),
               ('/voice/stream', 'voice-stream', stream),
-              ('/voice/response', 'voice-response', getResponse, ['POST'], True),
+              ('/voice/response', 'voice-response', receiveResponse, ['POST']),
               ('/voice/response-stream', 'voice-response-stream', responseStream),
-              ('/voice/config', 'voice-config', get_config, ['GET'], True)],
+              ('/voice/config', 'voice-config', moduleConfig, ['GET'])],
     'config': config_view
 }

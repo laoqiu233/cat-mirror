@@ -1,4 +1,5 @@
 from flask import render_template_string, request, abort, jsonify, url_for, redirect, Response
+from ..middlewares import make_safe
 from time import sleep
 import os, json
 
@@ -19,6 +20,7 @@ def stream():
             sleep(0.5)
     return Response(generator(), mimetype='text/event-stream')
 
+@make_safe
 def change_format():
     # API for clock format
     if request.method == 'POST':
@@ -55,7 +57,7 @@ config = {
     'pos': ['bottom', 'left'],
     'styles': ['clock.css'],
     'scripts': ['main.js'],
-    'views': [('/clock/format', 'clock-format', change_format, ['GET', 'POST'], True),
+    'views': [('/clock/format', 'clock-format', change_format, ['GET', 'POST']),
               ('/clock/stream', 'clock-stream', stream)],
     'config': config_view,
 }

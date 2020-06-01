@@ -1,9 +1,9 @@
 from flask import request, redirect
 from functools import wraps
-from utils import settings, generate_token
+from .utils import settings, generate_token
 import jwt, json, base64
 
-def secure(view):
+def make_safe(view):
     @wraps(view)
     def secured_view(*args, **kwargs):
         token = request.cookies.get('jwt', '')

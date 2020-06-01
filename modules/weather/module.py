@@ -4,6 +4,5 @@ config = {
     'pos': ['top', 'left'],
     'styles': ['weather.css'],
     'scripts': ['main.js'],
-    'views': [],
-    'config': lambda: 'Testing'
+    'views': []
 }
