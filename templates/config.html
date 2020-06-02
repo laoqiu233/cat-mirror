@@ -41,7 +41,7 @@
     </header>
     <div class="container">
         {% for module in modules %}
-        {% if module.get('config', '') %}
+        {% if module.get('configView', '') %}
         <a href="/config/{{ module.name }}">
             <div class="button col-2 col-s-6 module-link c-purple button-filled">
                 <div class="text">

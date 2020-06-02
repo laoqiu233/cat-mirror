@@ -8,22 +8,42 @@
     <title>Cat-Mirror</title>
 </head>
 <body>
-    <!-- Module wrappers -->
-    {% for vertical in ['top', 'bottom'] %}
-    <div class="{{ vertical }}">
-        {% for horizontal in ['left', 'mid', 'right'] %}
-        <div class="{{ horizontal }}">
-            {% for module in filter(modules, [vertical, horizontal]) %}
-            <div class="container" id="module-{{ module['name'] }}">
-                {{ module['renderer']() | safe if module['renderer'] != None }}
+    <div id="app">
+        <!-- Module wrappers -->
+        {% for vertical in ['top', 'bottom'] %}
+        <div class="{{ vertical }}">
+            {% for horizontal in ['left', 'mid', 'right'] %}
+            <div class="{{ horizontal }}">
+                {% for module in filter(modules, [vertical, horizontal]) %}
+                <div class="container" id="module-{{ module['name'] }}">
+                    {{ module['renderer']() | safe if module['renderer'] != None }}
+                </div>
+                {% endfor %}
             </div>
             {% endfor %}
         </div>
         {% endfor %}
     </div>
-    {% endfor %}
 
     <!-- Static files -->
+    <!-- <script src="{{ url_for('static', filename='vue.js') }}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script>
+        modules = [
+            {% for module in modules %}'{{ module.name }}',{% endfor %}
+        ]
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                {% for module in modules %}
+                {{ module.name }}: {{ module.defaultJson | safe }}
+                {% endfor %}
+            }
+        })
+    </script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+
     {% for module in modules %}
     <!-- Static files for module "{{ module.name }}" -->
     {% for style in module.get('styles', []) %}

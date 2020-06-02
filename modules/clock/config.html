@@ -10,20 +10,19 @@
 <body>
     <form action="/clock/format" method="POST">
         <h1>Change the format here</h1>
-        <input type="text" id="format-header" name="format-header">
-        <input type="text" id="format-subtitle" name="format-subtitle">
+        <input type="text" id="format-header" name="format-header" value="{{ header }}">
+        <input type="text" id="format-subtitle" name="format-subtitle" value="{{ subtitle }}">
         <input type="submit" value="Change Format">
     </form>
     <h1>Preview:</h1>
     <div id="module-clock"></div>
+    <!-- <script src="{{ url_for('static', filename='vue.js') }}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="{{ url_for('static', filename='sockets.js') }}"></script>
     <script>
-    fetch("/clock/format").then(resp => {
-        return resp.json();
-    }).then(data => {
-        document.getElementById("format-header").value = data.header;
-        document.getElementById("format-subtitle").value = data.subtitle;
-    });
+        setMessageSocketHandler('clock', (data) => {
+            console.log(data);
+        });
     </script>
-    <script src="{{ url_for('serve_module_static', module='clock', path='main.js') }}"></script>
 </body>
 </html>

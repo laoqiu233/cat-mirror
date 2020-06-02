@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template, send_file, abort, redirect, url_for, make_response
+from flask import Flask, request, render_template, send_file, abort, redirect, url_for, make_response, Response
+from modules.helpers import moduleClass
 from modules.middlewares import make_safe
 from modules.utils import settings, generate_token
 import os, importlib, json
@@ -12,7 +13,7 @@ modules = []
 to_load = [
     'clock'
 ]
-served = False
+served_once = False
 
 # Import modules
 for folder in to_load:
@@ -20,41 +21,63 @@ for folder in to_load:
     if os.path.exists(os.path.join('.', 'modules', folder, 'module.py')):
         try:
             module = importlib.import_module('modules.{}.module'.format(folder))
-        except:
+        except Exception as e:
             print('$INFO$[Warning] Cannot import module "{}"'.format(folder))
+            print(e)
             continue
         # Check if module.py file is valid
         try:
-            assert 'config' in dir(module)
-            assert folder == module.config.get('name', '')
-            assert callable(module.config.get('renderer', '')) or module.config.get('renderer', '') == None
+            assert 'module' in dir(module) and type(module.module) == moduleClass
+            config = module.module.__config__
+            assert folder == config.get('name', '')
+            assert callable(config.get('renderer', '')) or config.get('renderer', '') == None
 
-            if 'config' in module.config:
-                assert callable(module.config.get('config', ''))
-                add_module_view('/config/{}'.format(folder), 'config-{}'.format(folder), module.config['config'])
+            if (callable(config.get('configView', ''))):
+                add_module_view('/config/{}'.format(folder), 'config-{}'.format(folder), config['configView'])
 
-            for view in module.config.get('views', ''):
+            for view in config.get('views', ''):
                 assert callable(view[2])
-                assert 3 <= len(view) <= 5
+                assert len(view) == 4
                 add_module_view(*view)
+
+            # Create sockets
+            @app.route('/sockets/{}/json'.format(folder))
+            def jsonSocket():
+                def generator():
+                    while True:
+                        while module.module.jsonQueue.not_empty:
+                            print('yielding from queue json')
+                            yield 'data: %s\n\n' % module.module.jsonQueue.get()
+                
+                return Response(generator(), mimetype='text/event-stream')
+
+            @app.route('/sockets/{}/message'.format(folder))
+            def messageSocket():
+                def generator():
+                    while True:
+                        while module.module.messageQueue.not_empty:
+                            print('yielding from queue message')
+                            yield 'data: %s\n\n' % module.module.messageQueue.get()
+                
+                return Response(generator(), mimetype='text/event-stream')
 
         except AssertionError:
             print('$INFO$[Warning] Module.py file for module "{}" is invalid!'.format(folder))
             continue
-            
+        
         print('$INFO$[Modules] Module {} loaded'.format(folder))
-        modules.append(module.config)
+        modules.append(module.module.__config__)
     else:
         print('$INFO$[Modules] Failed to find module "{}"'.format(folder))
 
 @app.route('/')
 def index():
-    global served
+    global served_once
     # Take user to config page if not using the Electron client
     if request.user_agent.string.find('Electron') < 0:
         return redirect(url_for('config_page'))
-    if not served:
-        served = True
+    if not served_once:
+        served_once = True
         response = make_response(render_template('index.html', modules=modules, filter=filter_by_pos))
         response.set_cookie('jwt', generate_token(365 * 24 * 60 * 60))
         return response
@@ -94,4 +117,4 @@ def filter_by_pos(modules, positions):
     return filtered
     
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=12306)
+    app.run(threaded=True, debug=False, host='0.0.0.0', port=12306)
