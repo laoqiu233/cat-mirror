@@ -8,53 +8,24 @@
     <title>Cat-Mirror</title>
 </head>
 <body>
-    <div class="top">
-        <div class="left">
-            {% for module in filter(modules, ['top', 'left']) %}
+    <!-- Module wrappers -->
+    {% for vertical in ['top', 'bottom'] %}
+    <div class="{{ vertical }}">
+        {% for horizontal in ['left', 'mid', 'right'] %}
+        <div class="{{ horizontal }}">
+            {% for module in filter(modules, [vertical, horizontal]) %}
             <div class="container" id="module-{{ module['name'] }}">
                 {{ module['renderer']() | safe if module['renderer'] != None }}
             </div>
             {% endfor %}
         </div>
-        <div class="mid">
-            {% for module in filter(modules, ['top', 'mid']) %}
-            <div class="container" id="module-{{ module['name'] }}">
-                {{ module['renderer']() | safe if module['renderer'] != None }}
-            </div>
-            {% endfor %}
-        </div>
-        <div class="right">
-            {% for module in filter(modules, ['top', 'right']) %}
-            <div class="container" id="module-{{ module['name'] }}">
-                {{ module['renderer']() | safe if module['renderer'] != None }}
-            </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
-    <div class="bottom">
-        <div class="left">
-            {% for module in filter(modules, ['bottom', 'left']) %}
-            <div class="container" id="module-{{ module['name'] }}">
-                {{ module['renderer']() | safe if module['renderer'] != None }}
-            </div>
-            {% endfor %}
-        </div>
-        <div class="mid">
-            {% for module in filter(modules, ['bottom', 'mid']) %}
-            <div class="container" id="module-{{ module['name'] }}">
-                {{ module['renderer']() | safe if module['renderer'] != None }}
-            </div>
-            {% endfor %}
-        </div>
-        <div class="right">
-            {% for module in filter(modules, ['bottom', 'right']) %}
-            <div class="container" id="module-{{ module['name'] }}">
-                {{ module['renderer']() | safe if module['renderer'] != None }}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+    {% endfor %}
+
+    <!-- Static files -->
     {% for module in modules %}
+    <!-- Static files for module "{{ module.name }}" -->
     {% for style in module.get('styles', []) %}
     <link rel="stylesheet" href="{% if style[:4] == 'http' %}{{ style }}{% else %}{{ url_for('serve_module_static', module=module['name'], path=style) }}{% endif %}">
     {% endfor %}
