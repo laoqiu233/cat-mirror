@@ -14,6 +14,7 @@ to_load = [
     'clock',
     'headlines',
     'weather',
+    'youtube'
 ]
 served = False
 
