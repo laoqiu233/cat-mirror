@@ -1,8 +1,8 @@
 from flask import Flask, request, render_template, send_file, abort, redirect, url_for, make_response, Response
 from modules.helpers import moduleClass
 from modules.middlewares import make_safe
-from modules.utils import settings, generate_token
-import os, importlib, json
+from modules.utils import settings, generate_token, Channel
+import os, importlib, json, threading
 
 def add_module_view(url, endpoint, handler, methods=['GET']):
     app.add_url_rule(url, endpoint, handler, methods=methods)
@@ -14,6 +14,13 @@ to_load = [
     'clock'
 ]
 served_once = False
+
+# Sockets
+json_channel = Channel()
+msg_channel = Channel()
+
+app.add_url_rule('/sockets/json', 'json-socket', json_channel.subscribe)
+app.add_url_rule('/sockets/message', 'message-socket', msg_channel.subscribe)
 
 # Import modules
 for folder in to_load:
@@ -27,43 +34,34 @@ for folder in to_load:
             continue
         # Check if module.py file is valid
         try:
-            assert 'module' in dir(module) and type(module.module) == moduleClass
+            assert 'module' in dir(module) and type(module.module) == moduleClass, 'No module object in file'
             config = module.module.__config__
-            assert folder == config.get('name', '')
-            assert callable(config.get('renderer', '')) or config.get('renderer', '') == None
+            assert folder == config.get('name', ''), 'The folder name and the module name are not the same'
+            assert callable(config.get('renderer', '')) or config.get('renderer', '') == None, 'Renderer is not a function'
 
             if (callable(config.get('configView', ''))):
                 add_module_view('/config/{}'.format(folder), 'config-{}'.format(folder), config['configView'])
 
             for view in config.get('views', ''):
-                assert callable(view[2])
-                assert len(view) == 4
+                assert callable(view[2]), 'View is not a function'
+                assert len(view) == 4, 'Error with view'
                 add_module_view(*view)
 
-            # Create sockets
-            @app.route('/sockets/{}/json'.format(folder))
-            def jsonSocket():
-                def generator():
-                    while True:
-                        while module.module.jsonQueue.not_empty:
-                            print('yielding from queue json')
-                            yield 'data: %s\n\n' % module.module.jsonQueue.get()
-                
-                return Response(generator(), mimetype='text/event-stream')
-
-            @app.route('/sockets/{}/message'.format(folder))
-            def messageSocket():
-                def generator():
-                    while True:
-                        while module.module.messageQueue.not_empty:
-                            print('yielding from queue message')
-                            yield 'data: %s\n\n' % module.module.messageQueue.get()
-                
-                return Response(generator(), mimetype='text/event-stream')
-
-        except AssertionError:
+        except AssertionError as e:
             print('$INFO$[Warning] Module.py file for module "{}" is invalid!'.format(folder))
+            print(e)
             continue
+
+        def updateData():
+            while True:
+                if (not module.module.jsonQueue.empty()):
+                    json_channel.publish(module.module.jsonQueue.get())
+                
+                if (not module.module.messageQueue.empty()):
+                    msg_channel.publish(module.module.messageQueue.get())
+
+        th = threading.Thread(target=updateData, daemon=True, name='data-update-%s' % module.module.__config__['name'])
+        th.start()
         
         print('$INFO$[Modules] Module {} loaded'.format(folder))
         modules.append(module.module.__config__)

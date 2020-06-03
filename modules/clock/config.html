@@ -15,13 +15,17 @@
         <input type="submit" value="Change Format">
     </form>
     <h1>Preview:</h1>
-    <div id="module-clock"></div>
+    <div id="module-clock">
+        <h1 id="module-clock-header"></h1>
+        <h2 id="module-clock-subtitle"></h2>
+    </div>
     <!-- <script src="{{ url_for('static', filename='vue.js') }}"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
     <script src="{{ url_for('static', filename='sockets.js') }}"></script>
     <script>
-        setMessageSocketHandler('clock', (data) => {
-            console.log(data);
+        setJsonSocketHandler('clock', (data) => {
+            document.getElementById('module-clock-header').innerHTML = data.header;
+            document.getElementById('module-clock-subtitle').innerHTML = data.subtitle;
         });
     </script>
 </body>

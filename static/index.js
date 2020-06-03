@@ -1,6 +1,5 @@
 modules.forEach((item) => {
-    let evt = new EventSource(`/sockets/${item}/json`);
-    evt.onmessage = (e) => {
-        Vue.set(app, item, JSON.parse(e.data));
-    }
+    setJsonSocketHandler(item, (data) => {
+        Vue.set(app, item, data);
+    })
 })

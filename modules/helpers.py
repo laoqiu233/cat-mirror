@@ -39,10 +39,10 @@ class moduleClass():
         self.__config__['defaultJson'] = json.dumps(obj)
 
     def sendJson(self, obj):
-        self.jsonQueue.put(obj)
+        self.jsonQueue.put('event:{}\ndata:{}\n\n'.format(self.__config__['name'], json.dumps(obj)))
 
     def sendMessage(self, msg):
-        self.messageQueue.put(msg)
+        self.messageQueue.put('event:{}\ndata:{}\n\n'.format(self.__config__['name'], msg))
 
 def renderFile(path, status_code=200, **context):
     f = open(path)
@@ -62,7 +62,7 @@ def setInterval(interval):
             except KeyboardInterrupt:
                 pass
 
-        th = threading.Thread(target=wrapped, daemon=True)
+        th = threading.Thread(target=wrapped, daemon=True, name='interval-%s' % interval)
         th.start()
     
     return decorator

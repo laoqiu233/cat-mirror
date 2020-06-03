@@ -1,4 +1,31 @@
+from flask import Response
+from queue import Queue
 import json, base64, os, jwt, time
+
+class Channel():
+
+    subscriptions = []
+
+    def generator(self):
+        q = Queue()
+        print('Subbed')
+        self.subscriptions.append(q)
+
+        try:
+            while True:
+                yield q.get()
+        except GeneratorExit:
+            print('Sub removed')
+            self.subscriptions.remove(q)
+
+    def subscribe(self):
+        print('Connected')
+        return Response(self.generator(), mimetype='text/event-stream')
+
+    def publish(self, msg):
+        print(self.subscriptions)
+        for sub in self.subscriptions:
+            sub.put(msg)
 
 def load_settings():
     '''
