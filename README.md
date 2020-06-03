@@ -10,7 +10,7 @@ The current version of Cat-Mirror requires the user to write a bunch of redunden
 The remastered version is aimed to offer user a simpler experience writing modules. Using web sockets and Vue.js, the remastered version will allow the user to create a working module without writing too much JavaScript.
 
 ## TODO:
-- [ ] Create web socket interface for front-end and back-end communication.
+- [X] Create web socket interface for front-end and back-end communication.
 
 - [ ] Rewrite old modules
     - [ ] Voice control
