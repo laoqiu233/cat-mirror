@@ -38,7 +38,7 @@
             el: '#app',
             data: {
                 {% for module in modules %}
-                {{ module.name }}: {{ module.defaultJson | safe }}
+                {{ module.name }}: {{ module.defaultJson | safe }},
                 {% endfor %}
             }
         })
