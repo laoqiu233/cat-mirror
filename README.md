@@ -14,6 +14,6 @@ The remastered version is aimed to offer user a simpler experience writing modul
 
 - [ ] Rewrite old modules
     - [ ] Voice control
-    - [ ] Headlines
+    - [X] Headlines
     - [ ] Weather
     - [ ] Youtube player

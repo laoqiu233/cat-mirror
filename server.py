@@ -11,7 +11,8 @@ app = Flask(__name__)
 
 modules = []
 to_load = [
-    'clock'
+    'clock',
+    'headlines'
 ]
 served_once = False
 

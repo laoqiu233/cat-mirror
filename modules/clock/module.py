@@ -51,7 +51,6 @@ module.setDefaultJson({
 
 @setInterval(1000)
 def sendTime():
-    print('adding to queue')
     module.sendJson({
         'header': datetime.datetime.now().strftime(formats['header']),
         'subtitle': datetime.datetime.now().strftime(formats['subtitle']),
