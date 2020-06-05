@@ -22,12 +22,17 @@ msg_channel = Channel()
 app.add_url_rule('/sockets/json', 'json-socket', json_channel.subscribe)
 app.add_url_rule('/sockets/message', 'message-socket', msg_channel.subscribe)
 
+threads = []
+
 # Import modules
 for folder in to_load:
     # Is valid module
     if os.path.exists(os.path.join('.', 'modules', folder, 'module.py')):
+        print('Loading', folder)
         try:
+            print('Importing')
             module = importlib.import_module('modules.{}.module'.format(folder))
+            print(module.module.__config__, folder)
         except Exception as e:
             print('$INFO$[Warning] Cannot import module "{}"'.format(folder))
             print(e)
@@ -51,18 +56,21 @@ for folder in to_load:
             print('$INFO$[Warning] Module.py file for module "{}" is invalid!'.format(folder))
             print(e)
             continue
-
-        def updateData():
-            while True:
-                if (not module.module.jsonQueue.empty()):
-                    json_channel.publish(module.module.jsonQueue.get())
-                
-                if (not module.module.messageQueue.empty()):
-                    msg_channel.publish(module.module.messageQueue.get())
-
-        th = threading.Thread(target=updateData, daemon=True, name='data-update-%s' % module.module.__config__['name'])
-        th.start()
         
+        print('Creating function')
+        def updateData(module_obj):
+            while True:
+                if (not module_obj.jsonQueue.empty()):
+                    print('Popped one', module_obj.__config__['name'])
+                    json_channel.publish(module_obj.jsonQueue.get())
+                
+
+                if (not module_obj.messageQueue.empty()):
+                    msg_channel.publish(module_obj.messageQueue.get())
+
+        th = threading.Thread(target=updateData, args=(module.module, ), daemon=True, name='data-update-%s' % module.module.__config__['name'])
+        threads.append(th)
+
         print('$INFO$[Modules] Module {} loaded'.format(folder))
         modules.append(module.module.__config__)
     else:
@@ -115,4 +123,5 @@ def filter_by_pos(modules, positions):
     return filtered
     
 if __name__ == '__main__':
+    for th in threads: th.start()
     app.run(threaded=True, debug=False, host='0.0.0.0', port=12306)
