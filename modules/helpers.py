@@ -1,25 +1,23 @@
 from flask import render_template_string
 from queue import Queue
 from functools import wraps
-import threading, time, json
+import threading, time, json, string, random
 
 class moduleClass():
-
-    __config__ = {
-        'views': [],
-        'scripts': [],
-        'styles': [],
-        'defaultJson': {}
-    }
-
-    jsonQueue = Queue()
-    messageQueue = Queue()
-
     def __init__(self, name, pos=['bottom', 'left'], renderer=None, configView=None):
-        self.__config__['name'] = name
-        self.__config__['pos'] = pos
-        self.__config__['renderer'] = renderer
-        self.__config__['configView'] = configView
+        self.__config__ = {
+            'name': name,
+            'pos': pos,
+            'renderer': renderer,
+            'configView': configView,
+            'scripts': [],
+            'styles': [],
+            'views': [],
+            'defaultJson': {}
+        }
+
+        self.jsonQueue = Queue()
+        self.messageQueue = Queue()
 
     def addView(self, route, endpoint, func, methods=['GET']):
         self.__config__['views'].append((route, endpoint, func, methods))
@@ -39,10 +37,13 @@ class moduleClass():
         self.__config__['defaultJson'] = json.dumps(obj)
 
     def sendJson(self, obj):
-        self.jsonQueue.put('event:{}\ndata:{}\n\n'.format(self.__config__['name'], json.dumps(obj)))
+        self.jsonQueue.put('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), self.__config__['name'], json.dumps(obj)))
 
     def sendMessage(self, msg):
-        self.messageQueue.put('event:{}\ndata:{}\n\n'.format(self.__config__['name'], msg))
+        self.messageQueue.put('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), self.__config__['name'], msg))
+
+def generateId(size=6, chars=string.ascii_lowercase + string.digits):
+    return ''.join([random.choice(chars) for i in range(size)])
 
 def renderFile(path, status_code=200, **context):
     f = open(path)

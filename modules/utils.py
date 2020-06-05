@@ -1,14 +1,21 @@
-from flask import Response
+from flask import Response, request
 from queue import Queue
+from collections import deque
 import json, base64, os, jwt, time
 
 class Channel():
 
-    subscriptions = []
+    def __init__(self, history_size=32):
+        self.subscriptions = []
+        self.history = deque(maxlen=history_size)
 
-    def generator(self):
+    def generator(self, last_event_id):
         q = Queue()
-        print('Subbed')
+
+        if (not last_event_id):
+            for msg in self.history:
+                q.put(msg)
+
         self.subscriptions.append(q)
 
         try:
@@ -20,10 +27,10 @@ class Channel():
 
     def subscribe(self):
         print('Connected')
-        return Response(self.generator(), mimetype='text/event-stream')
+        return Response(self.generator(request.headers.get('Last-Event-Id', '')), mimetype='text/event-stream')
 
     def publish(self, msg):
-        print(self.subscriptions)
+        self.history.append(msg)
         for sub in self.subscriptions:
             sub.put(msg)
 
