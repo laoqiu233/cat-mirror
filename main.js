@@ -5,7 +5,7 @@ const path = require('path');
 
 let win;
 let server;
-//Menu.setApplicationMenu(null);
+Menu.setApplicationMenu(null);
 
 app.on('ready', () => {
     if (!process.argv.includes('no-server')) {
