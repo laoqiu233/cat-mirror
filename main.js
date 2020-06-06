@@ -13,7 +13,7 @@ app.on('ready', () => {
     
         server.on('message', msg => {
             if (msg.startsWith('$INFO$')) {
-                console.log(/\$INFO\$(.*)/.exec(msg)[1]);
+                console.log(msg.slice(6));
             }
         });
     }

@@ -4,7 +4,7 @@ import requests, os
 
 ### Config ###
 # Youre API key for newsapi.org
-apikey = 'd1ca44e936974b1a9addb90c482b82c0' 
+apikey = '' 
 # 2-letter ISO 3166-1 code of the country
 # Options: ae ar at au be bg br ca ch cn 
 #          co cu cz de eg fr gb gr hk hu 

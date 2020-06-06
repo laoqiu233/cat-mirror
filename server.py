@@ -12,7 +12,8 @@ app = Flask(__name__)
 modules = []
 to_load = [
     'clock',
-    'headlines'
+    'headlines',
+    'weather'
 ]
 served_once = False
 
@@ -62,7 +63,6 @@ for folder in to_load:
         def updateData(module_obj):
             while True:
                 if (not module_obj.jsonQueue.empty()):
-                    print('Popped one', module_obj.__config__['name'])
                     json_channel.publish(module_obj.jsonQueue.get())
                 
 

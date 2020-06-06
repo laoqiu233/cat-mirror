@@ -1,0 +1,28 @@
+#module-weather .current-weather {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.right #module-weather .current-weather {
+    flex-direction: row-reverse;
+}
+
+#module-weather table {
+    border: none;
+    border-collapse: collapse;
+    width: 65%;
+}
+
+#module-weather td {
+    margin: 0;
+    padding: 10px 15px;
+    border-bottom: 1px solid #888;
+
+    text-align: center;
+}
+
+#module-weather tr:first-child td {
+    border-top: 1px solid #888;
+}
