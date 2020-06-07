@@ -54,9 +54,6 @@ def getNews():
     if (category): url += '&category=' + category
     if (keywords): url += '&q=' + quote_plus(keywords)
 
-    print(url)
-
-    
     resp = requests.get(url).json()
 
     if (resp['status'] == 'ok'):

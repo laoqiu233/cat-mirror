@@ -5,11 +5,16 @@
     align-items: flex-start;
 }
 
+#module-weather .current-weather img {
+    margin: 0 10px;
+}
+
 .right #module-weather .current-weather {
     flex-direction: row-reverse;
 }
 
 #module-weather table {
+    margin: 10px;
     border: none;
     border-collapse: collapse;
     width: 65%;
