@@ -1,4 +1,5 @@
 from ..helpers import moduleClass, setInterval, renderFile
+from ..voice.module import addCommand
 from urllib.parse import quote_plus
 import requests, os
 
@@ -12,7 +13,7 @@ apikey = ''
 #          mx my ng nl no nz ph pl pt ro 
 #          rs ru sa se sg si sk th tr tw 
 #          ua us ve za
-country = 'ru'
+country = 'us'
 # Category of the articles
 # Options: business entertainment general 
 #          health science sports technology
@@ -28,8 +29,8 @@ def configView():
 
 renderer = lambda: '''
 <div v-if="headlines.articles.length">
-<h3 style='font-size:2.5rem;'>{{ headlines.articles[headlines.n].title.split('-').slice(0, -1).join('-') }}</h3>
-<h4 style='color:#AAA;font-size:2rem;'>{{ headlines.articles[headlines.n].source.name }} - {{ headlines.articles[headlines.n].publishedAt }}<h4>
+<h3 style="font-size:2.5rem;">{{ headlines.articles[headlines.n].title.split('-').slice(0, -1).join('-') }}</h3>
+<h4 style="color:#AAA;font-size:2rem;">{{ headlines.articles[headlines.n].source.name }} - {{ headlines.articles[headlines.n].publishedAt }}</h4>
 </div>
 <h3 v-else style='color:#AAA;font-size:2rem;'>No articles found...</h3>
 '''
@@ -64,3 +65,13 @@ def getNews():
         })
     else:
         print('Failed to get new articles')
+
+@addCommand(r'news description')
+def newsDescription(match, respond):
+    module.sendMessage('show news')
+    respond('Showing it on the big screen right now!')
+
+@addCommand(r'close news description')
+def hideDescription(match, respond):
+    module.sendMessage('hide news')
+    respond('News hidden!')

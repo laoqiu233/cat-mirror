@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 modules = []
 to_load = [
+    'voice',
     'clock',
     'headlines',
     'weather'

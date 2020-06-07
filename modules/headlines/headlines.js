@@ -15,3 +15,22 @@ function headlinesAnimation() {
         }, 500);
     }, duration);
 }
+
+let headlines_description_dom = document.createElement('div');
+headlines_description_dom.id = 'module-headlines-news-description';
+document.getElementById('app').appendChild(headlines_description_dom);
+
+setMessageSocketHandler('headlines', function(msg) {
+    if (msg == 'show news') {
+        headlines_description_dom.innerHTML = `
+        <div class="wrapper">
+            <h3>${app.headlines.articles[app.headlines.n].title}</h3>
+            <p>${app.headlines.articles[app.headlines.n].description}</p>
+            <p style="color:#AAA">Check the full article on the config page!</p>
+        </div>
+        `
+        headlines_description_dom.style.width = '500px';
+    } else if (msg == 'hide news') {
+        headlines_description_dom.style.width = '0';
+    }
+});
