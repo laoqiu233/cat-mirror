@@ -36,11 +36,13 @@ class moduleClass():
     def setDefaultJson(self, obj):
         self.__config__['defaultJson'] = json.dumps(obj)
 
-    def sendJson(self, obj):
-        self.jsonQueue.put('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), self.__config__['name'], json.dumps(obj)))
+    def sendJson(self, obj, send_to=None):
+        if (send_to == None): send_to = self.__config__['name']
+        self.jsonQueue.put('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), send_to, json.dumps(obj)))
 
-    def sendMessage(self, msg):
-        self.messageQueue.put('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), self.__config__['name'], msg))
+    def sendMessage(self, msg, send_to=None):
+        if (send_to == None): send_to = self.__config__['name']
+        self.messageQueue.put('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), send_to, msg))
 
 def generateId(size=6, chars=string.ascii_lowercase + string.digits):
     return ''.join([random.choice(chars) for i in range(size)])
