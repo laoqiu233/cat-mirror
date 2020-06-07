@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ds.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+    <script src="{{ url_for('static', filename='sockets.js') }}"></script>
+    <title>Voice Control</title>
+    <style>
+    .result {
+        position: relative;
+        opacity: 1;
+        top: 0px;
+
+        transition: all 0.3s ease-out;
+    }
+
+    .hidden {
+        opacity: 0;
+        top: 100px;
+    }
+
+    #voice-control {
+        position: absolute;
+        transform: translate(-50%, 0);
+        left: 50%;
+        bottom: 5px;
+        transition: all 0.5s ease-in-out;
+    }
+    </style>
+</head>
+<body>
+    <h1 id="voice-result" class="result hidden"></h1>
+    <h1 id="voice-response" class="c-purple result hidden"></h1>
+    <button class="c-blue button-filled" id="voice-control"><h1 id="voice-text">Start</h1></button>
+    <script>
+        var result_dom = document.getElementById('voice-result');
+        var response_dom = document.getElementById('voice-response');
+        var voice_button = document.getElementById('voice-control');
+        var voice_button_text = document.getElementById('voice-text');
+
+        function voiceResume() {
+            console.log('started');
+            result_dom.classList.add('hidden');
+            response_dom.classList.add('hidden');
+            annyang.resume();
+            voice_button.classList.replace('c-blue', 'c-red');
+            voice_button_text.innerHTML = 'Listening';
+            started = true;
+        }
+
+        function voicePause() {
+            console.log('stopped');
+            result_dom.classList.remove('hidden');
+            annyang.pause();
+            voice_button.classList.replace('c-red', 'c-blue');
+            voice_button_text.innerHTML = 'Start';
+            started = false;
+        }
+
+        function showResult(result) {
+            result_dom.innerHTML = result;
+            result_dom.classList.remove('hidden');
+        }
+
+        function blockSpeech() {
+            blocked = true;
+            voice_button.classList.remove('c-blue', 'c-red');
+            voice_button.classList.add('c-gray');
+            voice_button_text.innerHTML = 'Failed to start voice recognition, please read the readme.md of this module.'
+        }
+        
+        // Init Annyang
+        // annyang.debug(true);
+        annyang.setLanguage('{{ lang }}');
+        annyang.start({paused: true});
+        
+        var started = false;
+        var blocked = false;
+
+        // Error handlers
+        annyang.addCallback('error', console.log);
+        annyang.addCallback('errorPermissionBlocked', blockSpeech);
+        annyang.addCallback('errorPermissionDenied', blockSpeech);
+        
+        // Send results to backend
+        annyang.addCallback('result', function(e) {
+            console.log(e);
+            voicePause();
+            showResult(e[0]);
+            fetch('/voice/command', {
+                method: 'POST',
+                credentials: 'include',
+                body: e[0]
+            });
+        });
+
+        // Display response
+        setMessageSocketHandler('voice', (msg) => {
+            if (msg.startsWith('reply:') && !started && !blocked) {
+                response_dom.innerHTML = msg.slice(6);
+                response_dom.classList.remove('hidden');
+            }
+        });
+
+        voice_button.addEventListener('click', function(e) {
+            if (!blocked) {
+                if (!started) {
+                    voiceResume();
+                } else {
+                    voicePause();
+                } 
+            }
+        });
+    </script>
+</body>
+</html>

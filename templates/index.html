@@ -15,7 +15,7 @@
             {% for horizontal in ['left', 'mid', 'right'] %}
             <div class="{{ horizontal }}">
                 {% for module in filter(modules, [vertical, horizontal]) %}
-                <div class="container" id="module-{{ module['name'] }}">
+                <div class="module-container" id="module-{{ module['name'] }}">
                     {{ module['renderer']() | safe if module['renderer'] != None }}
                 </div>
                 {% endfor %}
