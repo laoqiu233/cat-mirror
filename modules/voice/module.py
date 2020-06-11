@@ -37,7 +37,7 @@ def postCommand():
         match = re.match(pattern, command.strip())
         print(pattern, command)
         if (match):
-            current_command_id = [random.choice(string.hexdigits) for i in range(10)]
+            current_command_id = ''.join([random.choice(string.hexdigits) for i in range(10)])
             def respond(msg):
                 command_id = current_command_id
                 if (current_command_id == command_id):
