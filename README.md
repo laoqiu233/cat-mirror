@@ -12,8 +12,8 @@ The remastered version is aimed to offer user a simpler experience writing modul
 ## TODO:
 - [X] Create web socket interface for front-end and back-end communication.
 
-- [ ] Rewrite old modules
+- [X] Rewrite old modules
     - [X] Voice control
     - [X] Headlines
     - [X] Weather
-    - [ ] Youtube player
+    - [X] Youtube player

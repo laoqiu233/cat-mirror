@@ -1,0 +1,7 @@
+.left #module-youtube #player {
+    float: left;
+}
+
+.right #module-youtube #player {
+    float: right;
+}

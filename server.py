@@ -14,7 +14,8 @@ to_load = [
     'voice',
     'clock',
     'headlines',
-    'weather'
+    'weather',
+    'youtube'
 ]
 served_once = False
 
