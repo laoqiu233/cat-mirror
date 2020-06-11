@@ -13,7 +13,7 @@ The remastered version is aimed to offer user a simpler experience writing modul
 - [X] Create web socket interface for front-end and back-end communication.
 
 - [ ] Rewrite old modules
-    - [ ] Voice control
+    - [X] Voice control
     - [X] Headlines
-    - [ ] Weather
+    - [X] Weather
     - [ ] Youtube player
