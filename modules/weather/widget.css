@@ -17,9 +17,11 @@
     margin: 10px;
     border: none;
     border-collapse: collapse;
-    width: 95%;
+    width: 65%;
+}
 
-    text-align: center;
+.right #module-weather table {
+    float: right;
 }
 
 #module-weather td {
