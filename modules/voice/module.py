@@ -12,19 +12,18 @@ commands = {
     r'lights ((?:on)|(?:off))': lambda x,r: module.sendMessage('lights %s' % x.group(1)),
     r'show': lambda x,r: module.sendMessage('show'),
     r'hide': lambda x,r: module.sendMessage('hide'),
-    r'dick': lambda x,r: r('catcatcatcat')
 }
 
 current_command_id = ''
 
 # Could be used both as a decorator and a function
-def addCommand(pattern, callback=None):
+def addCommand(pattern, callback=None, flags=re.I):
     if (callback == None):
         def decorator(func):
-            commands[pattern] = func
+            commands[re.compile(pattern, flags)] = func
         return decorator
     else:
-        commands[pattern] = callback
+        commands[re.compile(pattern, flags)] = callback
 
 def configView():
     return renderFile(os.path.join('.', 'modules', 'voice', 'voice.html'), lang=lang)
