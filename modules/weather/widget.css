@@ -17,7 +17,9 @@
     margin: 10px;
     border: none;
     border-collapse: collapse;
-    width: 65%;
+    width: 95%;
+
+    text-align: center;
 }
 
 #module-weather td {
