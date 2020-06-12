@@ -20,7 +20,7 @@ The remastered version is aimed to offer user a simpler experience writing modul
 
 - [ ] Documentations
     - [ ] Module specific documentations
-        - [ ] Clock
+        - [X] Clock
         - [ ] Headlines
         - [ ] Weather
         - [ ] Youtube
