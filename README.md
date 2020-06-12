@@ -17,3 +17,13 @@ The remastered version is aimed to offer user a simpler experience writing modul
     - [X] Headlines
     - [X] Weather
     - [X] Youtube player
+
+- [ ] Documentations
+    - [ ] Module specific documentations
+        - [ ] Clock
+        - [ ] Headlines
+        - [ ] Weather
+        - [ ] Youtube
+        - [ ] Voice
+    - [ ] Readme.md
+    - [ ] Developer's Guide
