@@ -3,7 +3,7 @@ from ..voice.module import addCommand
 import requests, json
 
 # Your google API key
-api_key = 'AIzaSyAsE4N08B-fBlIhWI_JKFupdmXacooUkfw'
+api_key = ''
 
 renderer = lambda: '<div id="player"></div>' 
 

@@ -53,4 +53,4 @@ module.setDefaultJson({'command': ''})
 
 module.addView('/voice/command', 'module-voice-commands', postCommand, methods=['POST'])
 
-module.addScript('frontend.js')
+module.addScript('voice.js')

@@ -37,7 +37,7 @@ renderer = lambda: '''
 
 module = moduleClass('headlines', pos=['bottom', 'mid'], renderer=renderer, configView=configView)
 
-module.addStyle('styles.css')
+module.addStyle('headlines.css')
 
 module.addScript('headlines.js')
 

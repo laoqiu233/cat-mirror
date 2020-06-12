@@ -36,7 +36,7 @@ def formatView():
 
 def configView():
     # Simply renders the config page
-    return renderFile(os.path.join(path, 'config.html'), **formats)
+    return renderFile(os.path.join(path, 'clock.html'), **formats)
 
 module = moduleClass('clock', renderer=lambda: '<h1>{{ clock.header }}</h1><h2>{{ clock.subtitle }}</h2>', configView=configView)
 

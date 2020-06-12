@@ -47,7 +47,7 @@ renderer = lambda: ('''
 
 module = moduleClass('weather', ['top', 'left'], renderer)
 
-module.addStyle('widget.css')
+module.addStyle('weather.css')
 
 module.setDefaultJson({
     'data': [],
