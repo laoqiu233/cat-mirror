@@ -9,9 +9,9 @@ renderer = lambda: '<div id="player"></div>'
 
 module = moduleClass('youtube', ['top', 'left'], renderer=renderer)
 
-module.addScript('main.js')
+module.addScript('youtube.js')
 module.addScript('https://www.youtube.com/iframe_api')
-module.addStyle('styles.css')
+module.addStyle('youtube.css')
 
 def getPlaylistItems(playlist_id):
     results = requests.get('https://www.googleapis.com/youtube/v3/playlistItems', {
