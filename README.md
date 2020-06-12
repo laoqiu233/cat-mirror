@@ -21,7 +21,7 @@ The remastered version is aimed to offer user a simpler experience writing modul
 - [ ] Documentations
     - [ ] Module specific documentations
         - [X] Clock
-        - [ ] Headlines
+        - [X] Headlines
         - [ ] Weather
         - [ ] Youtube
         - [ ] Voice
