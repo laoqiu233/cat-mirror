@@ -1,6 +1,3 @@
-var json_socket = new EventSource('/sockets/json');
-var msg_socket = new EventSource('/sockets/message')
-
 /**
  * Callback function for json socket handlers
  * @callback jsonCallback
@@ -12,6 +9,25 @@ var msg_socket = new EventSource('/sockets/message')
  * @callback msgCallback
  * @param {string} message 
  */
+
+var json_socket = undefined;
+var msg_socket = undefined;
+
+/**
+ * Start the json socket
+ * @param {Boolean} history 
+ */
+function startJsonSocket(history=false) {
+    json_socket = new EventSource(`/sockets/json?history=${history}`);
+}
+
+/**
+ * Start the message socket
+ * @param {Boolean} history 
+ */
+function startMessageSocket(history=false) {
+    msg_socket = new EventSource(`/sockets/message?history=${history}`);
+}
 
 /**
  * Sets handler for incoming JSON messages

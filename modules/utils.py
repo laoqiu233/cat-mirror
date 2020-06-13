@@ -9,10 +9,10 @@ class Channel():
         self.subscriptions = []
         self.history = deque(maxlen=history_size)
 
-    def generator(self, last_event_id):
+    def generator(self, history):
         q = Queue()
 
-        if (not last_event_id):
+        if (history != 'false'):
             for msg in self.history:
                 q.put(msg)
 
@@ -27,7 +27,7 @@ class Channel():
 
     def subscribe(self):
         print('Connected')
-        return Response(self.generator(request.headers.get('Last-Event-Id', '')), mimetype='text/event-stream')
+        return Response(self.generator(request.args.get('history', 'false')), mimetype='text/event-stream')
 
     def publish(self, msg):
         self.history.append(msg)

@@ -26,9 +26,9 @@ msg_channel = Channel()
 app.add_url_rule('/sockets/json', 'json-socket', json_channel.subscribe)
 app.add_url_rule('/sockets/message', 'message-socket', msg_channel.subscribe)
 
+# Import modules
 threads = []
 
-# Import modules
 for folder in to_load:
     # Is valid module
     if os.path.exists(os.path.join('.', 'modules', folder, 'module.py')):
