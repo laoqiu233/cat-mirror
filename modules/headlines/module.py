@@ -25,7 +25,7 @@ keywords = ''
 articles = []
 
 def configView():
-    return renderFile(os.path.join('.', 'modules', 'headlines', 'config.html'), articles=articles)
+    return renderFile(os.path.join('.', 'modules', 'headlines', 'headlines.html'), articles=articles)
 
 renderer = lambda: '''
 <div v-if="headlines.articles.length">
