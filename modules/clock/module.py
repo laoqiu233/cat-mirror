@@ -49,7 +49,7 @@ module.setDefaultJson({
     'subtitle': 'subtitle'
 })
 
-@setInterval(1000)
+@setInterval(100)
 def sendTime():
     module.sendJson({
         'header': datetime.datetime.now().strftime(formats['header']),
