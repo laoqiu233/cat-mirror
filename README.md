@@ -24,6 +24,6 @@ The remastered version is aimed to offer user a simpler experience writing modul
         - [X] Headlines
         - [X] Weather
         - [X] Youtube
-        - [ ] Voice
+        - [X] Voice
     - [ ] Readme.md
     - [ ] Developer's Guide
