@@ -1,6 +1,6 @@
 from flask import render_template_string
-from queue import Queue
 from functools import wraps
+from .sockets import json_channel, msg_channel
 import threading, time, json, string, random
 
 class moduleClass():
@@ -15,9 +15,6 @@ class moduleClass():
             'views': [],
             'defaultJson': {}
         }
-
-        self.jsonQueue = Queue()
-        self.messageQueue = Queue()
 
     def addView(self, route, endpoint, func, methods=['GET']):
         self.__config__['views'].append((route, endpoint, func, methods))
@@ -38,11 +35,11 @@ class moduleClass():
 
     def sendJson(self, obj, send_to=None):
         if (send_to == None): send_to = self.__config__['name']
-        self.jsonQueue.put('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), send_to, json.dumps(obj)))
+        json_channel.publish('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), send_to, json.dumps(obj)))
 
     def sendMessage(self, msg, send_to=None):
         if (send_to == None): send_to = self.__config__['name']
-        self.messageQueue.put('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), send_to, msg))
+        msg_channel.publish('id:{}\nevent:{}\ndata:{}\n\n'.format(generateId(), send_to, msg))
 
 def generateId(size=6, chars=string.ascii_lowercase + string.digits):
     return ''.join([random.choice(chars) for i in range(size)])

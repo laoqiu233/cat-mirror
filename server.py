@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, send_file, abort, redirect, u
 from modules.helpers import moduleClass
 from modules.middlewares import make_safe
 from modules.utils import settings, generate_token, Channel
+from modules.sockets import json_channel, msg_channel
 import os, importlib, json, threading
 
 def add_module_view(url, endpoint, handler, methods=['GET']):
@@ -20,15 +21,10 @@ to_load = [
 served_once = False
 
 # Sockets
-json_channel = Channel()
-msg_channel = Channel()
-
 app.add_url_rule('/sockets/json', 'json-socket', json_channel.subscribe)
 app.add_url_rule('/sockets/message', 'message-socket', msg_channel.subscribe)
 
 # Import modules
-threads = []
-
 for folder in to_load:
     # Is valid module
     if os.path.exists(os.path.join('.', 'modules', folder, 'module.py')):
@@ -60,19 +56,6 @@ for folder in to_load:
             print('$INFO$[Warning] Module.py file for module "{}" is invalid!'.format(folder))
             print(e)
             continue
-        
-        print('Creating function')
-        def updateData(module_obj):
-            while True:
-                if (not module_obj.jsonQueue.empty()):
-                    json_channel.publish(module_obj.jsonQueue.get())
-                
-
-                if (not module_obj.messageQueue.empty()):
-                    msg_channel.publish(module_obj.messageQueue.get())
-
-        th = threading.Thread(target=updateData, args=(module.module, ), daemon=True, name='data-update-%s' % module.module.__config__['name'])
-        threads.append(th)
 
         print('$INFO$[Modules] Module {} loaded'.format(folder))
         modules.append(module.module.__config__)
@@ -126,5 +109,4 @@ def filter_by_pos(modules, positions):
     return filtered
     
 if __name__ == '__main__':
-    for th in threads: th.start()
     app.run(threaded=True, debug=False, host='0.0.0.0', port=12306)
