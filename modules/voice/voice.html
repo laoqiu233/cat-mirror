@@ -45,7 +45,7 @@
             console.log('started');
             result_dom.classList.add('hidden');
             response_dom.classList.add('hidden');
-            annyang.resume();
+            annyang.start({autoRestart: false});
             voice_button.classList.replace('c-blue', 'c-red');
             voice_button_text.innerHTML = 'Listening';
             started = true;
@@ -54,7 +54,7 @@
         function voicePause() {
             console.log('stopped');
             result_dom.classList.remove('hidden');
-            annyang.pause();
+            annyang.abort();
             voice_button.classList.replace('c-red', 'c-blue');
             voice_button_text.innerHTML = 'Start';
             started = false;
@@ -75,7 +75,6 @@
         // Init Annyang
         // annyang.debug(true);
         annyang.setLanguage('{{ lang }}');
-        annyang.start({paused: true});
         
         var started = false;
         var blocked = false;
