@@ -41,6 +41,8 @@
         var voice_button = document.getElementById('voice-control');
         var voice_button_text = document.getElementById('voice-text');
 
+        startMessageSocket();
+
         function voiceResume() {
             console.log('started');
             result_dom.classList.add('hidden');
